@@ -5,11 +5,16 @@ const LoginPage = lazy(() => import("./pages/authentication/Login"));
 const RegisterPage = lazy(() => import("./pages/authentication/Register"));
 
 const HomePage = lazy(() => import("./pages/Home"));
+const NotFoundPage = lazy(() => import("./pages/NotFound"));
 
 const routes = createBrowserRouter([
     {
         path: "/",
         element: <HomePage />
+    },
+    {
+        path: "*",
+        element: <NotFoundPage />
     },
     {
         path: "/login",
