@@ -2,7 +2,9 @@
 
 // <Flex minH={'100vh'}  Page height!
 
-import { Container, Heading, Link, Stack, Text } from "@chakra-ui/react";
+import { Container, Heading, Stack, Text } from "@chakra-ui/react";
+import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ChakraLink } from '@chakra-ui/react'
 
 export default function Home() {
 
@@ -14,7 +16,7 @@ export default function Home() {
                         <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
                             <Heading size={{ base: 'xs', md: 'lg' }}>Welcome the home page</Heading>
                             <Text color="fg.muted">
-                                <Link href="/login">Sign in here</Link>
+                                <ChakraLink as={ReactRouterLink} to="/login">Sign in here</ChakraLink>
                             </Text>
                         </Stack>
                     </Stack>
