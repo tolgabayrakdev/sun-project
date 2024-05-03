@@ -15,9 +15,9 @@ export default function Login({ }: Props) {
     const [emailError, setEmailError] = useState("");
     const [password, setPassword] = useState("");
     const [passwordError, setPasswordError] = useState("");
-
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
+
     const handleClick = () => setShow(!show);
 
     const handleFormSubmit = async (e: FormEvent) => {
