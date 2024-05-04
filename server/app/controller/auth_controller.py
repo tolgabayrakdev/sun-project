@@ -12,10 +12,10 @@ async def login(user: LoginUser, response: Response) -> dict[str, str]:
     result = AuthService.login(user.email, user.password)
     if result:
         response.set_cookie(
-            key="access_token", value=result["access_token"], httponly=True #type: ignore
+            key="access_token", value=result["access_token"], httponly=True  # type: ignore
         )
         response.set_cookie(
-            key="refresh_token", value=result["refresh_token"], httponly=True #type: ignore
+            key="refresh_token", value=result["refresh_token"], httponly=True  # type: ignore
         )
         return {"message": "Login is successful."}
     else:
@@ -24,7 +24,9 @@ async def login(user: LoginUser, response: Response) -> dict[str, str]:
 
 @auth_router.post("/register", status_code=201)
 async def register(user: RegisterUser):
-    return AuthService.register(payload=user)
+    user = AuthService.register(payload=user)
+    if user:
+        return {"message": "User has been created."}
 
 
 @auth_router.post("/logout")

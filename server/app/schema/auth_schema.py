@@ -7,6 +7,5 @@ class LoginUser(BaseModel):
 
 
 class RegisterUser(BaseModel):
-    username: str = Field(max_length=10)
     email: str
     password: str

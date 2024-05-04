@@ -23,7 +23,6 @@ class AuthService:
     def register(payload: RegisterUser):
         try:
             user = User(
-                username=payload.username,
                 email=payload.email,
                 password=Helper.generate_hash_password(payload.password),
                 role_id=1,
