@@ -14,7 +14,6 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
     role = relationship("Role", backref="roles")
-    clients = relationship("Client", backref="clients")
 
 
 class Role(Base):

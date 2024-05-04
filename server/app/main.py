@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from .database import engine
 from . import model
 from fastapi.middleware.cors import CORSMiddleware
+from app.controller import auth_controller
+
 
 model.Base.metadata.create_all(bind=engine)
 
@@ -21,3 +23,6 @@ app.add_middleware(
 @app.get("/")
 def main():
     return {"Hello": "World"}
+
+
+app.include_router(router=auth_controller.auth_router, prefix="/api/v1/auth")
