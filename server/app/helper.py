@@ -8,7 +8,7 @@ class Helper:
     def generate_hash_password(cls, password: str) -> str:
         salt = "secret_salt_key"
         return (
-                hashlib.sha256(salt.encode() + password.encode()).hexdigest() + ":" + salt
+                hashlib.sha256(salt.encode() + password.encode()).hexdigest() + salt
         )
 
     @classmethod

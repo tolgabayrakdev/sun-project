@@ -5,7 +5,6 @@ from fastapi import HTTPException
 from app.schema.auth_schema import RegisterUser
 from ..helper import Helper
 
-
 db = SessionLocal()
 
 
