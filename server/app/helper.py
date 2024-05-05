@@ -8,15 +8,15 @@ class Helper:
     def generate_hash_password(cls, password: str) -> str:
         salt = "secret_salt_key"
         return (
-            hashlib.sha256(salt.encode() + password.encode()).hexdigest() + ":" + salt
+                hashlib.sha256(salt.encode() + password.encode()).hexdigest() + ":" + salt
         )
 
     @classmethod
-    def match_hash_text(cls, hashedText: str, providedText: str) -> bool:
-        _hashedText, salt = hashedText.split(":")
+    def match_hash_text(cls, hashed_text: str, provided_text: str) -> bool:
+        _hashedText, salt = hashed_text.split(":")
         return (
-            _hashedText
-            == hashlib.sha256(salt.encode() + providedText.encode()).hexdigest()
+                _hashedText
+                == hashlib.sha256(salt.encode() + provided_text.encode()).hexdigest()
         )
 
     @classmethod

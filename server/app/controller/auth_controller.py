@@ -12,10 +12,10 @@ async def login(user: LoginUser, response: Response) -> dict[str, str]:
     result = AuthService.login(user.email, user.password)
     if result:
         response.set_cookie(
-            key="access_token", value=result["access_token"], httponly=True  # type: ignore
+            key="access_token", value=result["access_token"], httponly=True
         )
         response.set_cookie(
-            key="refresh_token", value=result["refresh_token"], httponly=True  # type: ignore
+            key="refresh_token", value=result["refresh_token"], httponly=True
         )
         return {"message": "Login is successful."}
     else:
