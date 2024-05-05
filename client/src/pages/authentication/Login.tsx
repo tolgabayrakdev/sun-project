@@ -1,16 +1,18 @@
 import { Button, Container, Divider, FormControl, FormHelperText, FormLabel, HStack, Heading, Input, InputGroup, InputRightElement, Link, Stack, Text, useToast } from '@chakra-ui/react'
 import { FormEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 type Props = {}
 
 const schema = z.object({
     email: z.string().email({ message: "Invalid email address" }),
-    password: z.string().min(8, { message: "Your password must be at least 8 characters" })
+    password: z.string().min(6, { message: "Your password must be at least 6 characters" })
 });
 
 export default function Login({ }: Props) {
     const toast = useToast();
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState("");
     const [password, setPassword] = useState("");
@@ -43,7 +45,7 @@ export default function Login({ }: Props) {
 
     const handleLoginSubmit = async (formData: { email: string, password: string }) => {
         try {
-            const res = await fetch("127.0.0.1:5000/api/v1/auth/login", {
+            const res = await fetch("http://localhost:8000/api/v1/auth/login", {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -52,6 +54,11 @@ export default function Login({ }: Props) {
                 body: JSON.stringify({ email: formData.email, password: formData.password })
             });
             if (res.status === 200) {
+                console.log("Log in successful");
+                setTimeout(() => {
+                    setLoading(false);
+                    navigate("/explore")
+                }, 500)
 
             } else {
                 toast({
@@ -66,7 +73,9 @@ export default function Login({ }: Props) {
                 }, 500)
             }
         } catch (e) {
-
+            setTimeout(() => {
+                setLoading(false);
+            }, 500)
         }
 
     }
