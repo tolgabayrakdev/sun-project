@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 
-
-
 function AuthWrapper(WrappedComponent: any) {
     const Wrapper = (props: any) => {
         const [loogedIn, setLoggedIn] = useState(false);
