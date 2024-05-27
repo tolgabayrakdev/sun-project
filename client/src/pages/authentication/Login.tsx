@@ -36,7 +36,15 @@ export default function Login({ }: Props) {
           email: values.email,
           password: values.password
         })
-      })
+      });
+      if (result.status === 200) {
+
+      } else {
+        notifications.show({
+          title: 'Default notification',
+          message: 'Hey there, your code is awesome! 🤥',
+        })
+      }
     } catch (error) {
       setLoading(false);
       notifications.show({
