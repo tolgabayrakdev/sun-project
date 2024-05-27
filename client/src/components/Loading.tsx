@@ -1,7 +1,15 @@
-type Props = {}
+import { Flex, Loader } from "@mantine/core"
 
-export default function Loading({}: Props) {
+export default function Loading() {
   return (
-    <div>Loading...</div>
+    <Flex
+      h="100vh"
+      justify="center"
+      align="center"
+      direction="column"
+
+    >
+      <Loader color="blue" />
+    </Flex>
   )
 }

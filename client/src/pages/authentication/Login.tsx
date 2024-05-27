@@ -1,12 +1,15 @@
-import { Anchor, Button, Container, Group, Paper, PasswordInput, Text, TextInput, Title } from "@mantine/core"
+import { Button, Container, Group, Paper, PasswordInput, Text, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { notifications } from "@mantine/notifications"
 import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
 type Props = {}
 
 export default function Login({ }: Props) {
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -15,9 +18,9 @@ export default function Login({ }: Props) {
     },
     validate: {
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : 'Invalid email',
+        /^\S+@\S+$/.test(value) ? null : 'Geçersiz email!',
       password: (value) =>
-        value.length < 8 ? 'You must be at least 8 to password' : null,
+        value.length < 8 ? 'Parolanız en az 6 karakter olmalıdır!' : null,
     }
   })
 
@@ -38,46 +41,51 @@ export default function Login({ }: Props) {
         })
       });
       if (result.status === 200) {
+        setTimeout(() => {
+          setLoading(false);
+          navigate("/app");
+        }, 1000)
 
       } else {
         notifications.show({
-          title: 'Default notification',
-          message: 'Hey there, your code is awesome! 🤥',
-        })
+          title: 'Giriş Başarısız!',
+          message: 'Bilgilerinizi kontrol ediniz.',
+        });
       }
     } catch (error) {
       setLoading(false);
       notifications.show({
-        title: 'Default notification',
-        message: 'Hey there, your code is awesome! 🤥',
-      })
+        title: 'Sunucu Hatası!',
+        message: 'Şuan giriş yapamıyorsunuz!',
+        color: "yellow"
+      });
       console.log(error);
     }
   }
 
   return (
-    <Container size={420} my={40}>
+    <Container size={420} my={50}>
       <Title ta="center">
-        Welcome back!
+        Tekrardan hoşgeldin!
       </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
-        Do not have an account yet?{' '}
-        <Anchor size="sm" component="button">
-          Create account
-        </Anchor>
+        Henüz bir hesabınız yok mu?{' '}
+        <Link to="/register" style={{ textDecoration: "none" }}>
+          Hesap oluştur
+        </Link>
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={form.onSubmit((values) => submitLoginForm(values))}>
           <TextInput label="Email" placeholder="you@mantine.dev" {...form.getInputProps("email")} />
-          <PasswordInput label="Password" placeholder="Your password" mt="md" {...form.getInputProps("password")} />
+          <PasswordInput label="Parola" placeholder="*******" mt="md" {...form.getInputProps("password")} />
           <Group justify="space-between" mt="lg">
-            <Anchor component="button" size="sm">
-              Forgot password?
-            </Anchor>
+            <Link to="/register" style={{ textDecoration: "none", fontSize: "14px" }}>
+              Parolamı unuttum ?
+            </Link>
           </Group>
-          <Button loading={loading} type="submit" fullWidth mt="xl">
-            Sign in
+          <Button color="" loading={loading} type="submit" fullWidth mt="md">
+            Giriş Yap
           </Button>
         </form>
       </Paper>
