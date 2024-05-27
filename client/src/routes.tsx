@@ -6,7 +6,7 @@ const HomePage = lazy(() => import("./pages/Home"));
 
 
 const LoginPage = lazy(() => import("./pages/authentication/Login"))
-
+const RegisterPage = lazy(() => import("./pages/authentication/Register"))
 
 
 const routes = createBrowserRouter([
@@ -21,6 +21,10 @@ const routes = createBrowserRouter([
     {
         path: "/login",
         element: <LoginPage />
+    },
+    {
+        path: "/register",
+        element: <RegisterPage />
     }
 ]);
 
