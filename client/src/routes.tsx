@@ -1,9 +1,12 @@
-import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
+import { createBrowserRouter } from "react-router-dom";
 
-
-const HomePage = lazy(() => import("./pages/Home"));
 const NotFoundPage = lazy(() => import("./pages/NotFound"));
+const HomePage = lazy(() => import("./pages/Home"));
+
+
+const LoginPage = lazy(() => import("./pages/authentication/Login"))
+
 
 
 const routes = createBrowserRouter([
@@ -14,7 +17,12 @@ const routes = createBrowserRouter([
     {
         path: "*",
         element: <NotFoundPage />
+    },
+    {
+        path: "/login",
+        element: <LoginPage />
     }
 ]);
+
 
 export default routes;
