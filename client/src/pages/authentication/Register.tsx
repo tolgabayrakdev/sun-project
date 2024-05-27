@@ -41,10 +41,10 @@ export default function Register({ }: Props) {
                     password: values.password
                 })
             });
-            if (result.status === 200) {
+            if (result.status === 201) {
                 setTimeout(() => {
                     setLoading(false);
-                    navigate("/app");
+                    navigate("/login");
                 }, 1000)
 
             } else {

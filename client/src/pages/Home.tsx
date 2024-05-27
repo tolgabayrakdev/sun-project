@@ -16,7 +16,7 @@ export default function Home({ }: Props) {
         size="xl"
         fw={900}
         variant="gradient"
-        gradient={{ from: 'yellow', to: 'orange', deg: 90 }}
+        gradient={{ from: 'blue', to: 'gray', deg: 90 }}
         >
         Hoşgeldin
       </Text>
@@ -25,7 +25,7 @@ export default function Home({ }: Props) {
         size="sm"
         fw={600}
         variant="gradient"
-        gradient={{ from: 'gray', to: 'orange', deg: 90 }}
+        gradient={{ from: 'blue', to: 'gray', deg: 90 }}
       >
         Buradan giriş yapabilirsin.
       </Text>

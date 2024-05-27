@@ -8,9 +8,9 @@ const NotFoundPage = lazy(() => import("./pages/NotFound"));
 const HomePage = lazy(() => import("./pages/Home"));
 
 
-const LoginPage = lazy(() => import("./pages/authentication/Login"))
-const RegisterPage = lazy(() => import("./pages/authentication/Register"))
-
+const LoginPage = lazy(() => import("./pages/authentication/Login"));
+const RegisterPage = lazy(() => import("./pages/authentication/Register"));
+const ResetPasswordPage = lazy(() => import("./pages/authentication/ResetPassword"));
 
 const routes = createBrowserRouter([
     {
@@ -28,6 +28,10 @@ const routes = createBrowserRouter([
     {
         path: "/register",
         element: <RegisterPage />
+    },
+    {
+        path: "/reset-password",
+        element: <ResetPasswordPage />
     },
     {
         path: "/app",
