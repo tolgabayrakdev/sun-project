@@ -1,11 +1,11 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom';
 
-type Props = {}
+type Props = {};
 
-export default function AppLayout({ }: Props) {
+export default function AppLayout({}: Props) {
     return (
         <div>
             <Outlet />
         </div>
-    )
+    );
 }
