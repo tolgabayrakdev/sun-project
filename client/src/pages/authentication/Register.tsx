@@ -23,35 +23,26 @@ export default function Register() {
             password: '',
         },
         validate: {
-            email: (value) =>
-                /^\S+@\S+$/.test(value) ? null : 'Geçersiz email!',
+            email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Geçersiz email!'),
             password: (value) =>
-                value.length < 8
-                    ? 'Parolanız en az 6 karakter olmalıdır!'
-                    : null,
+                value.length < 8 ? 'Parolanız en az 6 karakter olmalıdır!' : null,
         },
     });
 
-    const submitLoginForm = async (values: {
-        email: string;
-        password: string;
-    }) => {
+    const submitLoginForm = async (values: { email: string; password: string }) => {
         try {
             setLoading(true);
-            const result = await fetch(
-                'http://127.0.0.1:5000/api/v1/auth/register',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include',
-                    body: JSON.stringify({
-                        email: values.email,
-                        password: values.password,
-                    }),
+            const result = await fetch('http://127.0.0.1:5000/api/v1/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-            );
+                credentials: 'include',
+                body: JSON.stringify({
+                    email: values.email,
+                    password: values.password,
+                }),
+            });
             if (result.status === 201) {
                 setTimeout(() => {
                     setLoading(false);
@@ -85,11 +76,7 @@ export default function Register() {
             </Text>
 
             <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-                <form
-                    onSubmit={form.onSubmit((values) =>
-                        submitLoginForm(values),
-                    )}
-                >
+                <form onSubmit={form.onSubmit((values) => submitLoginForm(values))}>
                     <TextInput
                         label="Email"
                         placeholder="you@mantine.dev"
@@ -102,13 +89,7 @@ export default function Register() {
                         {...form.getInputProps('password')}
                     />
 
-                    <Button
-                        color=""
-                        loading={loading}
-                        type="submit"
-                        fullWidth
-                        mt="lg"
-                    >
+                    <Button color="" loading={loading} type="submit" fullWidth mt="lg">
                         Kayıt Ol
                     </Button>
                 </form>

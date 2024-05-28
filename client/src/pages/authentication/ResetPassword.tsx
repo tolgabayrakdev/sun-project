@@ -1,12 +1,4 @@
-import {
-    Button,
-    Container,
-    Group,
-    Paper,
-    Text,
-    TextInput,
-    Title,
-} from '@mantine/core';
+import { Button, Container, Group, Paper, Text, TextInput, Title } from '@mantine/core';
 import { Link } from 'react-router-dom';
 
 type Props = {};

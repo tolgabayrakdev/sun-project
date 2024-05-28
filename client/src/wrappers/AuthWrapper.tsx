@@ -12,13 +12,10 @@ function AuthWrapper(WrappedComponent: any) {
         useEffect(() => {
             const verifyAuthToken = async () => {
                 try {
-                    const res = await fetch(
-                        'http://localhost:8000/api/v1/auth/verify',
-                        {
-                            method: 'POST',
-                            credentials: 'include',
-                        },
-                    );
+                    const res = await fetch('http://localhost:8000/api/v1/auth/verify', {
+                        method: 'POST',
+                        credentials: 'include',
+                    });
                     if (res.status === 200) {
                         setLoading(false);
                         setLoggedIn(true);
