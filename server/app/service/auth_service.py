@@ -11,7 +11,6 @@ db = SessionLocal()
 class AuthService:
     @staticmethod
     def login(email: str, password: str) -> HTTPException | dict[str, str]:
-        print(email, password)
         user = db.query(User).filter_by(email=email).first()
         if user is None or not Helper.match_hash_text(str(user.password), password):
             raise HTTPException(status_code=400, detail="Email or password wrong!")
