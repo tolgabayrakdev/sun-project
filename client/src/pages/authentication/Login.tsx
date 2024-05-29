@@ -97,7 +97,7 @@ export default function Login() {
                             Parolamı unuttum ?
                         </Link>
                     </Group>
-                    <Button color="" loading={loading} type="submit" fullWidth mt="md">
+                    <Button loading={loading} type="submit" fullWidth mt="md">
                         Giriş Yap
                     </Button>
                 </form>

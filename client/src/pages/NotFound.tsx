@@ -1,8 +1,6 @@
 import { Flex, Text } from "@mantine/core";
 
-type Props = {};
-
-export default function NotFound({ }: Props) {
+export default function NotFound() {
     return (
         <Flex h="100vh" justify="center" align="center" direction="column">
             <Text
