@@ -13,11 +13,11 @@ class SubscriptionService:
     def create(cls, payload: CreateSubscription):
         try:
             subscription = Subscription(
-                user_id=CreateSubscription.user_id,
-                plan_id=CreateSubscription.plan_id,
-                status=CreateSubscription.status,
-                start_date=CreateSubscription.start_date,
-                end_date=CreateSubscription.end_date
+                user_id=payload.user_id,
+                plan_id=payload.plan_id,
+                status=payload.status,
+                start_date=payload.start_date,
+                end_date=payload.end_date
             )
             db.add(subscription)
             db.commit()
