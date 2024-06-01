@@ -65,7 +65,7 @@ class Plan(Base):
     duration = Column(Integer, nullable=False)
 
 
-class Invoices(Base):
+class Invoice(Base):
     __tablename__ = "invoices"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -79,7 +79,7 @@ class Invoices(Base):
     due_date = Column(DateTime)
 
 
-class Payments(Base):
+class Payment(Base):
     __tablename__ = "payments"
     id = Column(Integer, primary_key=True, index=True)
     invoice_id = Column(Integer, ForeignKey("invoices.id"))

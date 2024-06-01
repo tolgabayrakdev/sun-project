@@ -3,10 +3,12 @@ from .database import engine
 from . import model
 from fastapi.middleware.cors import CORSMiddleware
 from app.controller import auth_controller, subscription_controller
+from dotenv import load_dotenv
 
 model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+load_dotenv(".env.example")
 
 origins = ["http://localhost:5173", "https://localhost:5173"]
 
