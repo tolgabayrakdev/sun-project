@@ -6,6 +6,7 @@ const AppIndexPage = lazy(() => import('./pages/app/Index'));
 
 const NotFoundPage = lazy(() => import('./pages/NotFound'));
 const HomePage = lazy(() => import('./pages/Home'));
+const SubscriptionPage = lazy(() => import('./pages/Subscription'));
 
 const LoginPage = lazy(() => import('./pages/authentication/Login'));
 const RegisterPage = lazy(() => import('./pages/authentication/Register'));
@@ -15,6 +16,10 @@ const routes = createBrowserRouter([
     {
         path: '/',
         element: <HomePage />,
+    },
+    {
+        path: '/subscription',
+        element: <SubscriptionPage />
     },
     {
         path: '*',
