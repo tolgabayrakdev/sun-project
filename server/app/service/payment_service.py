@@ -7,7 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from fastapi import HTTPException
 from ..database import SessionLocal
 from ..model import Invoice, Subscription
-from datetime import datetime
+from datetime import datetime, timedelta
 
 db = SessionLocal()
 
@@ -15,16 +15,11 @@ db = SessionLocal()
 class PaymentService:
 
     @classmethod
-    def process_payment(cls, plan: Plan, invoice_payload: CreateInvoice, payment: Payment):
+    def process_payment(cls, plan: Plan, invoice_payload: CreateInvoice, payment: Payment, user_id: int):
         try:
-            subscription_check = db.query(Subscription).filter(
-                Subscription.id == invoice_payload.subscription_id).first()
-            if not subscription_check:
-                raise HTTPException(status_code=404, detail="Subscription not found!")
-
             amount = plan.price
             invoice = Invoice(
-                user_id=invoice_payload.user_id,
+                user_id=user_id,
                 subscription_id=invoice_payload.subscription_id,
                 price=amount,
                 status="paid",
@@ -43,6 +38,29 @@ class PaymentService:
             db.add(payment)
             db.commit()
             db.refresh(payment)
-            return invoice
+
+            start_date = datetime.now()
+            end_date = start_date + timedelta(days=plan.duration)
+            subscription = Subscription(
+                user_id=user_id,
+                plan_id=plan.id,
+                status="active",
+                start_date=start_date,
+                end_date=end_date
+            )
+            db.add(subscription)
+            db.commit()
+            db.refresh(subscription)
+
+            # Faturayı güncelleme (subscription_id ekleme)
+            invoice.subscription_id = subscription.id
+            db.commit()
+            db.refresh(invoice)
+
+            return {
+                "invoice": invoice,
+                "payment": payment,
+                "subscription": subscription
+            }
         except SQLAlchemyError as e:
             raise HTTPException(status_code=500, detail=str(e))

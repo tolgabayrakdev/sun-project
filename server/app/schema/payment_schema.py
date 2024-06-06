@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from decimal import Decimal
-import datetime
+from datetime import datetime
 
 
 class Payment(BaseModel):

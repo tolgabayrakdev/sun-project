@@ -1,6 +1,5 @@
 from pydantic import BaseModel
-import datetime
-
+from datetime import datetime
 
 class CreateSubscription(BaseModel):
     status: str

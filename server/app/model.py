@@ -12,9 +12,6 @@ class User(Base):
     role_id = Column(Integer, ForeignKey("roles.id"), default=1)
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
-    role = relationship("Role", backref="roles")
-    subscriptions = relationship("Subscription", back_populates="user")
-    invoices = relationship("Invoice", back_populates="user")
 
 
 class Role(Base):
@@ -32,7 +29,6 @@ class Notification(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     message = Column(String(255), nullable=False)
     sent_at = Column(DateTime, default=datetime.now())
-    user = relationship("User", back_populates="notifications")
 
 
 class AuditLog(Base):
@@ -41,7 +37,6 @@ class AuditLog(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     action = Column(String(255), nullable=False)
     timestamp = Column(DateTime, default=datetime.now())
-    user = relationship("User", back_populates="audit_logs")
 
 
 class Subscription(Base):
@@ -50,8 +45,6 @@ class Subscription(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     plan_id = Column(Integer, ForeignKey("plans.id"))
     status = Column(String(50), nullable=False)
-    user = relationship("User", back_populates="subscriptions")
-    plan = relationship("Plan", back_populates="subscriptions")
     start_date = Column(DateTime)
     end_date = Column(DateTime)
 
@@ -72,9 +65,6 @@ class Invoice(Base):
     subscription_id = Column(Integer, ForeignKey("subscriptions.id"))
     price = Column(Numeric(10, 2), nullable=False)
     status = Column(String(50), nullable=False)
-    user = relationship("User", back_populates="invoices")
-    payments = relationship("Payment", back_populates="invoices")
-    subscription = relationship("Subscription", back_populates="invoices")
     issue_date = Column(DateTime)
     due_date = Column(DateTime)
 

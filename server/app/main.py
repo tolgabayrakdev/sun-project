@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-load_dotenv(".env.example")
+load_dotenv(".env.examplecle")
 
 origins = ["http://localhost:5173", "https://localhost:5173"]
 
