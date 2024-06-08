@@ -1,5 +1,5 @@
-import { Outlet } from 'react-router-dom';
-import { AppShell, Burger, Button, Group, Menu, Skeleton, rem, Text } from '@mantine/core';
+import { Link, Outlet } from 'react-router-dom';
+import { AppShell, Burger, Button, Group, Menu, NavLink, Skeleton, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
     IconSettings,
@@ -13,7 +13,6 @@ export default function AppLayout({ }: Props) {
     const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
     return (
         <div>
-
             <AppShell
                 header={{ height: 60 }}
                 navbar={{
@@ -30,13 +29,12 @@ export default function AppLayout({ }: Props) {
                         <h3>Logo</h3>
                         <Menu shadow="md" width={200}>
                             <Menu.Target>
-                                <Button>tolgabayrak</Button>
+                                <Button variant="gradient" gradient={{ from: 'blue', to: 'gray', deg: 90 }}                                >tolgabayrak</Button>
                             </Menu.Target>
-
                             <Menu.Dropdown>
                                 <Menu.Label>Uygulama</Menu.Label>
-                                <Menu.Item leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
-                                    Ayarlar
+                                <Menu.Item to="settings" component={Link} leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
+                                  Ayarlar
                                 </Menu.Item>
                                 <Menu.Item leftSection={<IconMessageCircle style={{ width: rem(14), height: rem(14) }} />}>
                                     Mesajlar

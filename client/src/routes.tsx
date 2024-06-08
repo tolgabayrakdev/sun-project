@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 const AppLayout = lazy(() => import('./layouts/AppLayout'));
 const AppIndexPage = lazy(() => import('./pages/app/Index'));
+const AppSettingsPage = lazy(() => import('./pages/app/Settings'));
 
 const NotFoundPage = lazy(() => import('./pages/NotFound'));
 const HomePage = lazy(() => import('./pages/Home'));
@@ -40,7 +41,10 @@ const routes = createBrowserRouter([
     {
         path: '/app',
         element: <AppLayout />,
-        children: [{ path: '', element: <AppIndexPage /> }],
+        children: [
+            { path: '', element: <AppIndexPage /> },
+            { path: 'settings', element: <AppSettingsPage /> }
+        ],
     },
 ]);
 
