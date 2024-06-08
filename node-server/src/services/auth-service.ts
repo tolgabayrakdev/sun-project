@@ -15,10 +15,9 @@ class AuthService {
         this.helper = new Helper();
     }
 
-    public async login(email: string, password: string): Promise<ReturnTokens>{
+    public async login(email: string, password: string){
         const hashPassword = this.helper.hashPassword(password);
 
-        
     }
 
 
