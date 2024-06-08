@@ -1,7 +1,11 @@
 import { Outlet } from 'react-router-dom';
-import { AppShell, Burger, Group, Skeleton } from '@mantine/core';
+import { AppShell, Burger, Button, Group, Menu, Skeleton, rem, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-
+import {
+    IconSettings,
+    IconMessageCircle,
+    IconTrash,
+} from '@tabler/icons-react';
 type Props = {};
 
 export default function AppLayout({ }: Props) {
@@ -20,10 +24,33 @@ export default function AppLayout({ }: Props) {
                 padding="md"
             >
                 <AppShell.Header>
-                    <Group h="100%" px="md">
+                    <Group justify="space-between" h="100%" px="md">
                         <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
                         <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
                         <h3>Logo</h3>
+                        <Menu shadow="md" width={200}>
+                            <Menu.Target>
+                                <Button>tolgabayrak</Button>
+                            </Menu.Target>
+
+                            <Menu.Dropdown>
+                                <Menu.Label>Uygulama</Menu.Label>
+                                <Menu.Item leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
+                                    Ayarlar
+                                </Menu.Item>
+                                <Menu.Item leftSection={<IconMessageCircle style={{ width: rem(14), height: rem(14) }} />}>
+                                    Mesajlar
+                                </Menu.Item>
+                                <Menu.Divider />
+                                <Menu.Item
+                                    color="red"
+                                    leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
+                                >
+                                    Çıkış Yap
+                                </Menu.Item>
+                            </Menu.Dropdown>
+                        </Menu>
+
                     </Group>
                 </AppShell.Header>
                 <AppShell.Navbar p="md">
