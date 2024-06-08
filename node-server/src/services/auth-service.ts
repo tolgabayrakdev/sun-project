@@ -2,7 +2,7 @@ import client from "../database";
 import { BadRequestError } from "../exceptions/bad-request-exception";
 import { Exception } from "../exceptions/exception";
 import { InternalServerError } from "../exceptions/internal-server-exception";
-import { NotFoundError } from "../exceptions/not-found.error";
+import { NotFoundError } from "../exceptions/not-found-exception";
 import { findByEmailQuery, loginQuery, registerQuery } from "../queries/auth-queries";
 import { Helper } from "../util/helper";
 
