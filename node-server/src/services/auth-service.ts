@@ -3,8 +3,13 @@ import { BadRequestError } from '../exceptions/bad-request-exception';
 import { Exception } from '../exceptions/exception';
 import { InternalServerError } from '../exceptions/internal-server-exception';
 import { NotFoundError } from '../exceptions/not-found-exception';
-import { findByEmailQuery, loginQuery, registerQuery } from '../queries/auth-queries';
+import { findByEmailQuery, loginQuery, registerQuery, verifyUserQuery } from '../queries/auth-queries';
 import { Helper } from '../util/helper';
+
+type TokenPayload = {
+    id: number;
+    email: string;
+}
 
 export class AuthService {
     private helper: Helper;
@@ -44,6 +49,25 @@ export class AuthService {
             }
         } catch (error) {
             await client.query('ROLLBACK');
+            if (error instanceof Exception) {
+                throw error;
+            } else {
+                throw new InternalServerError('Internal Server Error!');
+            }
+        }
+    }
+
+    public async verify(token: string) {
+        try {
+            const decodedToken: any = this.helper.decodeToken(token);
+            const result = await client.query(verifyUserQuery, [
+                decodedToken.id
+            ]);
+            if (result.rows.length === 0) {
+                throw new NotFoundError("User not found!");
+            }
+            return result.rows[0];
+        } catch (error) {
             if (error instanceof Exception) {
                 throw error;
             } else {

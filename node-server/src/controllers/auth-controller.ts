@@ -41,4 +41,23 @@ export class AuthController {
             }
         }
     }
+
+    public verify = async (req: Request, res: Response) => {
+        try {
+            const token: string = req.cookies.access_token;
+            res.status(200).json({ status: true, user: this.authService.verify(token) });
+        } catch (error) {
+            if (error instanceof Exception) {
+                res.status(error.statusCode).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: 'Internal server error!' });
+            }
+        }
+    }
+
+    public logout = async (req: Request, res: Response) => {
+        res.clearCookie("access_token");
+        res.clearCookie("refresh_token");
+        res.status(200).json({ message: "User loggout successful." });
+    }
 }
