@@ -1,14 +1,17 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { AppShell, Burger, Button, Group, Menu, NavLink, Skeleton, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
     IconSettings,
     IconMessageCircle,
     IconTrash,
+    IconHome,
 } from '@tabler/icons-react';
 type Props = {};
 
 export default function AppLayout({ }: Props) {
+    const location = useLocation();
+    const isActive = (path: string) => location.pathname === path;
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
     const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
     return (
@@ -34,7 +37,7 @@ export default function AppLayout({ }: Props) {
                             <Menu.Dropdown>
                                 <Menu.Label>Uygulama</Menu.Label>
                                 <Menu.Item to="settings" component={Link} leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
-                                  Ayarlar
+                                    Ayarlar
                                 </Menu.Item>
                                 <Menu.Item leftSection={<IconMessageCircle style={{ width: rem(14), height: rem(14) }} />}>
                                     Mesajlar
@@ -52,11 +55,33 @@ export default function AppLayout({ }: Props) {
                     </Group>
                 </AppShell.Header>
                 <AppShell.Navbar p="md">
-                    {Array(3)
-                        .fill(0)
-                        .map((_, index) => (
-                            <Skeleton key={index} h={28} mt="sm" animate={false} />
-                        ))}
+                    <Button
+                        to="/app"
+                        component={Link}
+                        leftSection={<IconHome size={14} />}
+                        variant="default"
+                        style={{
+                            backgroundColor: isActive('/app') ? 'gray' : 'transparent',
+                            color: isActive('/app') ? "white" : ""
+
+                        }}
+                    >
+                        Anasayfa
+                    </Button>
+                    <Button
+                        mt="xs"
+                        to="settings"
+                        component={Link}
+                        leftSection={<IconSettings size={14} />}
+                        variant="default"
+                        style={{
+                            backgroundColor: isActive('/app/settings') ? 'gray' : 'transparent',
+                            color: isActive('/app/settings') ? "white" : ""
+
+                        }}
+                    >
+                        Ayarlar
+                    </Button>
                 </AppShell.Navbar>
                 <AppShell.Main>
                     <Outlet />
