@@ -6,11 +6,6 @@ import { NotFoundError } from '../exceptions/not-found-exception';
 import { findByEmailQuery, loginQuery, registerQuery, verifyUserQuery } from '../queries/auth-queries';
 import { Helper } from '../util/helper';
 
-type TokenPayload = {
-    id: number;
-    email: string;
-}
-
 export class AuthService {
     private helper: Helper;
 

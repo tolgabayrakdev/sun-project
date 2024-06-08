@@ -44,8 +44,8 @@ export class AuthController {
 
     public verify = async (req: Request, res: Response) => {
         try {
-            const token: string = req.cookies.access_token;
-            res.status(200).json({ status: true, user: this.authService.verify(token) });
+            const token: string = req.cookies.access_token;            
+            res.status(200).json({ status: true, user: await this.authService.verify(token) });
         } catch (error) {
             if (error instanceof Exception) {
                 res.status(error.statusCode).json({ message: error.message });
