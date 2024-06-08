@@ -1,4 +1,4 @@
-import { Exception } from "./exception";
+import { Exception } from './exception';
 
 export class BadRequestError extends Exception {
     constructor(message: string) {
