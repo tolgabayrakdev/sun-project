@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { AppShell, Burger, Button, Group, Menu, NavLink, Skeleton, rem } from '@mantine/core';
+import { Anchor, AppShell, Breadcrumbs, Burger, Button, Group, Menu, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
     IconSettings,
@@ -14,6 +14,23 @@ export default function AppLayout({ }: Props) {
     const isActive = (path: string) => location.pathname === path;
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
     const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
+
+
+    const breadcrumbMap: { [key: string]: string } = {
+        '/app': 'Anasayfa',
+        '/app/settings': 'Ayarlar',
+    };
+    
+    const pathnames = location.pathname.replace('/app', '').split('/').filter((x) => x);
+    const breadcrumbItems = pathnames.map((value, index) => {
+        const to = `/app/${pathnames.slice(0, index + 1).join('/')}`;
+        return (
+            <Anchor component={Link} to={to} key={to}>
+                {breadcrumbMap[to] || value.charAt(0).toUpperCase() + value.slice(1)}
+            </Anchor>
+        );
+    });
+
     return (
         <div>
             <AppShell
@@ -84,6 +101,12 @@ export default function AppLayout({ }: Props) {
                     </Button>
                 </AppShell.Navbar>
                 <AppShell.Main>
+                    <Breadcrumbs mb="lg">
+                        <Anchor component={Link} to="/app">
+                            Anasayfa
+                        </Anchor>
+                        {breadcrumbItems}
+                    </Breadcrumbs>
                     <Outlet />
                 </AppShell.Main>
             </AppShell>
