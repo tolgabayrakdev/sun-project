@@ -12,7 +12,7 @@ function AuthWrapper(WrappedComponent: any) {
         useEffect(() => {
             const verifyAuthToken = async () => {
                 try {
-                    const res = await fetch('http://localhost:8000/api/v1/auth/verify', {
+                    const res = await fetch('http://localhost:1234/api/v1/auth/verify', {
                         method: 'POST',
                         credentials: 'include',
                     });
@@ -20,6 +20,9 @@ function AuthWrapper(WrappedComponent: any) {
                         setLoading(false);
                         setLoggedIn(true);
                     } else if (res.status === 403 || res.status === 401) {
+                        setLoading(false);
+                        setAccessDenied(true);
+                    }else {
                         setLoading(false);
                         setAccessDenied(true);
                     }

@@ -32,7 +32,7 @@ export default function Register() {
     const submitLoginForm = async (values: { email: string; password: string }) => {
         try {
             setLoading(true);
-            const result = await fetch('http://127.0.0.1:5000/api/v1/auth/register', {
+            const result = await fetch('http://localhost:1234/api/v1/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,11 +44,19 @@ export default function Register() {
                 }),
             });
             if (result.status === 201) {
+
                 setTimeout(() => {
                     setLoading(false);
+                    notifications.show({
+                        title: 'Başarılı',
+                        message: 'Hesabınız oluşturuldu.',
+                        color: 'green',
+                        autoClose: 1500
+                    });
                     navigate('/login');
                 }, 1000);
             } else {
+                setLoading(false);
                 notifications.show({
                     title: 'Hata!',
                     message: 'Bilgilerinizi kontrol ediniz.',

@@ -7,9 +7,10 @@ import {
     IconTrash,
     IconHome,
 } from '@tabler/icons-react';
-type Props = {};
+import AuthWrapper from '../wrappers/AuthWrapper';
 
-export default function AppLayout({ }: Props) {
+
+function AppLayout() {
     const location = useLocation();
     const isActive = (path: string) => location.pathname === path;
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
@@ -116,3 +117,6 @@ export default function AppLayout({ }: Props) {
         </div>
     );
 }
+
+
+export default AuthWrapper(AppLayout);
