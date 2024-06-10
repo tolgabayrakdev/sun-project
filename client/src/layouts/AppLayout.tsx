@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Anchor, AppShell, Breadcrumbs, Burger, Button, Group, Menu, rem } from '@mantine/core';
+import { Anchor, AppShell, Breadcrumbs, Burger, Button, Divider, Group, Menu, Title, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
     IconSettings,
@@ -20,7 +20,7 @@ export default function AppLayout({ }: Props) {
         '/app': 'Anasayfa',
         '/app/settings': 'Ayarlar',
     };
-    
+
     const pathnames = location.pathname.replace('/app', '').split('/').filter((x) => x);
     const breadcrumbItems = pathnames.map((value, index) => {
         const to = `/app/${pathnames.slice(0, index + 1).join('/')}`;
@@ -34,6 +34,7 @@ export default function AppLayout({ }: Props) {
     return (
         <div>
             <AppShell
+                layout="alt"
                 header={{ height: 60 }}
                 navbar={{
                     width: 260,
@@ -46,10 +47,9 @@ export default function AppLayout({ }: Props) {
                     <Group justify="space-between" h="100%" px="md">
                         <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
                         <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
-                        <h3>Logo</h3>
                         <Menu shadow="md" width={200}>
                             <Menu.Target>
-                                <Button variant="gradient" gradient={{ from: 'blue', to: 'gray', deg: 90 }}                                >tolgabayrak</Button>
+                                <Button variant="default" c="blue">tolgabayrak</Button>
                             </Menu.Target>
                             <Menu.Dropdown>
                                 <Menu.Label>Uygulama</Menu.Label>
@@ -68,18 +68,21 @@ export default function AppLayout({ }: Props) {
                                 </Menu.Item>
                             </Menu.Dropdown>
                         </Menu>
-
                     </Group>
                 </AppShell.Header>
-                <AppShell.Navbar p="md">
+                <AppShell.Navbar style={{ background: "black" }} p="md">
+                    <Group justify="center">
+                        <Title c="white" order={3}>SUNAPP</Title>
+                    </Group>
+                    <Divider my="md" />
                     <Button
                         to="/app"
                         component={Link}
                         leftSection={<IconHome size={14} />}
-                        variant="default"
+                        variant=""
                         style={{
-                            backgroundColor: isActive('/app') ? 'gray' : 'transparent',
-                            color: isActive('/app') ? "white" : ""
+                            backgroundColor: isActive('/app') ? '' : 'black',
+                            color: isActive('/app') ? "white" : "",
 
                         }}
                     >
@@ -90,10 +93,10 @@ export default function AppLayout({ }: Props) {
                         to="settings"
                         component={Link}
                         leftSection={<IconSettings size={14} />}
-                        variant="default"
+                        variant=""
                         style={{
-                            backgroundColor: isActive('/app/settings') ? 'gray' : 'transparent',
-                            color: isActive('/app/settings') ? "white" : ""
+                            backgroundColor: isActive('/app/settings') ? '' : 'black',
+                            color: isActive('/app/settings') ? "white" : "",
 
                         }}
                     >
