@@ -55,7 +55,7 @@ export default function Table({ }: Props) {
   ]);
 
 
-  const [columnDefs, setColumnDefs] = useState<ColDef[]>([
+  const [columnDefs, setColumnDefs] = useState<any[]>([
     {
         field: "make",
         checkboxSelection: true,
