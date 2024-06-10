@@ -1,5 +1,4 @@
 import { Badge, Card, Grid, Group, Text, rem } from "@mantine/core";
-import Table from "../../components/app/Table";
 import AreasChart from "../../components/app/AreaChart";
 
 export default function Index() {

@@ -7,12 +7,6 @@ import { useMemo, useState } from 'react';
 
 type Props = {}
 
-interface IRow {
-  make: string;
-  model: string;
-  price: number;
-  electric: boolean;
-}
 
 export default function Table({ }: Props) {
   const [rowData, setRowData] = useState([
