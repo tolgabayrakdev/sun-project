@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react';
 
 
 export default function Table() {
-  const [rowData, setRowData] = useState([
+  const [rowData] = useState([
     { make: 'Tesla', model: 'Model Y', price: 64950, electric: true, month: 'June' },
     { make: 'Ford', model: 'F-Series', price: 33850, electric: false, month: 'October' },
     { make: 'Toyota', model: 'Corolla', price: 29600, electric: false, month: 'August' },
@@ -46,7 +46,7 @@ export default function Table() {
   ]);
 
 
-  const [columnDefs, setColumnDefs] = useState<any[]>([
+  const [columnDefs] = useState<any[]>([
     {
       field: "make",
       checkboxSelection: true,
@@ -73,6 +73,7 @@ export default function Table() {
       },
     }
   ]);
+  
 
   const defaultColDef = useMemo(() => {
     return {
