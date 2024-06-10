@@ -101,7 +101,7 @@ export default function AppLayout({ }: Props) {
                     </Button>
                 </AppShell.Navbar>
                 <AppShell.Main>
-                    <Breadcrumbs mb="lg">
+                    <Breadcrumbs mb="lg" mt="xs">
                         <Anchor component={Link} to="/app">
                             Anasayfa
                         </Anchor>
