@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Anchor, AppShell, Breadcrumbs, Burger, Button, Divider, Group, Menu, Title, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -8,14 +8,16 @@ import {
     IconHome,
 } from '@tabler/icons-react';
 import AuthWrapper from '../wrappers/AuthWrapper';
+import { notifications } from '@mantine/notifications';
 
 
 function AppLayout() {
     const location = useLocation();
+    const navigate = useNavigate();
+
     const isActive = (path: string) => location.pathname === path;
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
     const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
-
 
     const breadcrumbMap: { [key: string]: string } = {
         '/app': 'Anasayfa',
@@ -31,6 +33,28 @@ function AppLayout() {
             </Anchor>
         );
     });
+
+
+    const handleLogoutRequest = async () => {
+        try {
+            const res = await fetch("http://localhost:1234/api/v1/auth/logout",{
+                method: "POST",
+                credentials: 'include',
+            });
+            if (res.status === 200) {
+                notifications.show({
+                    title: 'Başarılı',
+                    message: 'Çıkış yapılıyor...',
+                    autoClose: 1500
+                });
+                setTimeout(() => {
+                   navigate("/login")
+                }, 1500)
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
 
     return (
         <div>
@@ -62,6 +86,7 @@ function AppLayout() {
                                 </Menu.Item>
                                 <Menu.Divider />
                                 <Menu.Item
+                                    onClick={handleLogoutRequest}
                                     color="red"
                                     leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
                                 >

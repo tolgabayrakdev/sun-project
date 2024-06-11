@@ -50,10 +50,15 @@ export default function Login() {
                     navigate('/app');
                 }, 1000);
             } else {
-                notifications.show({
-                    title: 'Giriş Başarısız!',
-                    message: 'Bilgilerinizi kontrol ediniz.',
-                });
+                setTimeout(() => {
+                    setLoading(false);
+                    notifications.show({
+                        title: 'Giriş Başarısız!',
+                        message: 'Bilgilerinizi kontrol ediniz.',
+                        color: "yellow"
+                    });
+                }, 1000)
+
             }
         } catch (error) {
             setLoading(false);
