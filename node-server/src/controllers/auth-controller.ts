@@ -58,6 +58,6 @@ export class AuthController {
     public logout = async (req: Request, res: Response) => {
         res.clearCookie("access_token");
         res.clearCookie("refresh_token");
-        res.status(200).json({ message: "User loggout successful." });
+        res.status(200).json({ message: "User logout successful." });
     }
 }
