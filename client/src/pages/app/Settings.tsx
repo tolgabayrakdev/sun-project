@@ -1,8 +1,23 @@
 import { Badge, Button, Card, Checkbox, Divider, Grid, Group, PasswordInput, Text, rem } from "@mantine/core"
+import { useEffect, useState } from "react"
 
 type Props = {}
 
 export default function Settings({ }: Props) {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isMatch, setIsMatch] = useState(true);
+
+
+  useEffect(() => {
+    if (password && confirmPassword) {
+      setIsMatch(password === confirmPassword);
+    } else {
+      setIsMatch(true);
+    }
+  }, [password, confirmPassword]);
+
+
   return (
     <>
       <Grid p="md">
@@ -16,13 +31,19 @@ export default function Settings({ }: Props) {
               label="Parola"
               placeholder="*******"
               mt="md"
+              onChange={(e) => setPassword(e.target.value)}
             />
             <PasswordInput
               label="Parola Tekrarı"
               placeholder="*******"
               mt="xs"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+
             />
-            <Button mt="md" type="submit" w="160">
+            {!isMatch && (
+              <Text c="red" size="sm">Şifreler eşleşmiyor!</Text>
+            )}
+            <Button mt="lg" type="submit" w="160">
               Onayla
             </Button>
           </Card>
@@ -44,11 +65,16 @@ export default function Settings({ }: Props) {
               defaultChecked
               label="Güvenlik bildirimleri"
             />
-             <Checkbox
+            <Checkbox
               mt="md"
               defaultChecked
               label="Kullanıcı bildirimleri"
             />
+
+
+            <Button mt="lg" type="submit" w="160">
+              Kaydet
+            </Button>
           </Card>
         </Grid.Col>
       </Grid>
