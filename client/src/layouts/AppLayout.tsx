@@ -9,9 +9,15 @@ import {
 } from '@tabler/icons-react';
 import AuthWrapper from '../wrappers/AuthWrapper';
 import { notifications } from '@mantine/notifications';
+import { useEffect, useState } from 'react';
 
 
 function AppLayout() {
+    const [user, setUser] = useState({
+        id: 0,
+        email: ""
+    });
+
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -37,7 +43,7 @@ function AppLayout() {
 
     const handleLogoutRequest = async () => {
         try {
-            const res = await fetch("http://localhost:1234/api/v1/auth/logout",{
+            const res = await fetch("http://localhost:1234/api/v1/auth/logout", {
                 method: "POST",
                 credentials: 'include',
             });
@@ -48,13 +54,31 @@ function AppLayout() {
                     autoClose: 1500
                 });
                 setTimeout(() => {
-                   navigate("/login")
+                    navigate("/login")
                 }, 1500)
             }
         } catch (error) {
             throw error;
         }
     }
+
+    useEffect(() => {
+        const getUserVerify = async () => {
+            try {
+                const res = await fetch("http://localhost:1234/api/v1/auth/verify", {
+                    method: "POST",
+                    credentials: "include"
+                });
+                const userInformation: any = await res.json();
+                if (res.status === 200) {
+                    setUser({ id: userInformation.user.id, email: userInformation.user.email });
+                }
+            } catch (error) {
+                throw error;
+            }
+        }
+        getUserVerify();
+    }, [])
 
     return (
         <div>
@@ -74,7 +98,7 @@ function AppLayout() {
                         <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
                         <Menu shadow="md" width={200}>
                             <Menu.Target>
-                                <Button variant="default" c="blue">tolgabayrak</Button>
+                                <Button variant="default" c="blue"> {user.email} </Button>
                             </Menu.Target>
                             <Menu.Dropdown>
                                 <Menu.Label>Uygulama</Menu.Label>
