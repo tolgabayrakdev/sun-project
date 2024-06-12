@@ -10,12 +10,11 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function Login() {
     const [loading, setLoading] = useState(false);
-
     const navigate = useNavigate();
 
     const form = useForm({
@@ -70,6 +69,21 @@ export default function Login() {
             console.log(error);
         }
     };
+
+
+
+    useEffect(() => {
+        const checkLoggedIn = async () => {
+            const res = await fetch('http://localhost:1234/api/v1/auth/verify', {
+                method: 'POST',
+                credentials: 'include',
+            });
+            if (res.status === 200) {
+                navigate('/app')
+            }
+        }
+        checkLoggedIn();
+    }, [])
 
     return (
         <Container size={420} my={50}>

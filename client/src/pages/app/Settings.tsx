@@ -1,9 +1,8 @@
-import { Badge, Button, Card, Checkbox, Divider, Grid, Group, PasswordInput, Text, rem } from "@mantine/core"
+import { Button, Card, Checkbox, Divider, Grid, Group, PasswordInput, Text, rem } from "@mantine/core"
 import { useEffect, useState } from "react"
 
-type Props = {}
 
-export default function Settings({ }: Props) {
+export default function Settings() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isMatch, setIsMatch] = useState(true);
@@ -70,8 +69,6 @@ export default function Settings({ }: Props) {
               defaultChecked
               label="Kullanıcı bildirimleri"
             />
-
-
             <Button mt="lg" type="submit" w="160">
               Kaydet
             </Button>
