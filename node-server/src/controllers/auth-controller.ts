@@ -32,7 +32,7 @@ export class AuthController {
     public register = async (req: Request, res: Response) => {
         try {
             await this.authService.register(req.body);
-            res.status(201).json({ message: "Account created successfully." });
+            res.status(201).json({ message: 'Account created successfully.' });
         } catch (error) {
             if (error instanceof Exception) {
                 res.status(error.statusCode).json({ message: error.message });
@@ -40,11 +40,11 @@ export class AuthController {
                 res.status(500).json({ message: 'Internal server error!' });
             }
         }
-    }
+    };
 
     public verify = async (req: Request, res: Response) => {
         try {
-            const token: string = req.cookies.access_token;            
+            const token: string = req.cookies.access_token;
             res.status(200).json({ status: true, user: await this.authService.verify(token) });
         } catch (error) {
             if (error instanceof Exception) {
@@ -53,11 +53,31 @@ export class AuthController {
                 res.status(500).json({ message: 'Internal server error!' });
             }
         }
-    }
+    };
 
     public logout = async (req: Request, res: Response) => {
-        res.clearCookie("access_token");
-        res.clearCookie("refresh_token");
-        res.status(200).json({ message: "User logout successful." });
-    }
+        res.clearCookie('access_token');
+        res.clearCookie('refresh_token');
+        res.status(200).json({ message: 'User logout successful.' });
+    };
+
+    public updatePassword = async (req: Request, res: Response) => {
+        const { currentPassword, newPassword } = req.body;
+
+        try {
+            const token: string = req.cookies.access_token;
+            const result = await this.authService.updatePassword(
+                token,
+                currentPassword,
+                newPassword,
+            );
+            res.status(200).json({ message: result.message });
+        } catch (error) {
+            if (error instanceof Exception) {
+                res.status(error.statusCode).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: 'Internal server error!' });
+            }
+        }
+    };
 }

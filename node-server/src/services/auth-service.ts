@@ -3,7 +3,14 @@ import { BadRequestError } from '../exceptions/bad-request-exception';
 import { Exception } from '../exceptions/exception';
 import { InternalServerError } from '../exceptions/internal-server-exception';
 import { NotFoundError } from '../exceptions/not-found-exception';
-import { findByEmailQuery, loginQuery, registerQuery, verifyUserQuery } from '../queries/auth-queries';
+import {
+    findByEmailQuery,
+    loginQuery,
+    registerQuery,
+    updateUserPassword,
+    verifyUserInformationQuery,
+    verifyUserQuery,
+} from '../queries/auth-queries';
 import { Helper } from '../util/helper';
 
 export class AuthService {
@@ -55,14 +62,41 @@ export class AuthService {
     public async verify(token: string) {
         try {
             const decodedToken: any = this.helper.decodeToken(token);
-            const result = await client.query(verifyUserQuery, [
-                decodedToken.id
-            ]);
+            const result = await client.query(verifyUserQuery, [decodedToken.id]);
             if (result.rows.length === 0) {
-                throw new NotFoundError("User not found!");
+                throw new NotFoundError('User not found!');
             }
             return result.rows[0];
         } catch (error) {
+            if (error instanceof Exception) {
+                throw error;
+            } else {
+                throw new InternalServerError('Internal Server Error!');
+            }
+        }
+    }
+
+    public async updatePassword(token: string, currentPassword: string, newPassoword: string) {
+        try {
+            const decodedToken: any = this.helper.decodeToken(token);
+            const result = await client.query(verifyUserInformationQuery, [decodedToken.id]);
+            if (result.rows.length === 0) {
+                throw new NotFoundError('User not found!');
+            }
+            const user = result.rows[0];
+            const isPasswordValid = this.helper.comparePassword(currentPassword, user.password);
+
+            if (!isPasswordValid) {
+                throw new BadRequestError('Current password is incorrect!');
+            }
+
+            const hashedNewPassword = this.helper.hashPassword(newPassoword);
+            await client.query('BEGIN');
+            await client.query(updateUserPassword, [hashedNewPassword, user.id]);
+            await client.query('COMMIT');
+            return { message: 'Password updated successfully!' };
+        } catch (error) {
+            await client.query('ROLLBACK');
             if (error instanceof Exception) {
                 throw error;
             } else {

@@ -18,6 +18,11 @@ export class Helper {
         return Crypto.createHash('sha256').update(payload).digest('base64');
     }
 
+    public comparePassword(plainPassword: string, hashedPassword: string): boolean {
+        const hashPlainPassword = this.hashPassword(plainPassword);
+        return hashPlainPassword === hashedPassword;
+    }
+
     public decodeToken(payload: string) {
         try {
             const decodedToken = Jwt.verify(payload, process.env.JWT_SECRET_KEY || 'Secret_Key');
