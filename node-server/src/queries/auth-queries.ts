@@ -4,5 +4,15 @@ VALUES ($1, $2)`;
 const findByUsernameQuery = `SELECT * FROM users WHERE username = $1`;
 const findByEmailQuery = `SELECT * FROM users WHERE email = $1`;
 const verifyUserQuery = `SELECT id, email FROM users WHERE id = $1`;
+const verifyUserInformationQuery = `SELECT id, email, password FROM users WHERE id = $1`;
+const updateUserPassword = `UPDATE users SET password = $1 WHERE id = $2`;
 
-export { loginQuery, registerQuery, findByEmailQuery, findByUsernameQuery, verifyUserQuery };
+export {
+    loginQuery,
+    registerQuery,
+    findByEmailQuery,
+    findByUsernameQuery,
+    verifyUserQuery,
+    updateUserPassword,
+    verifyUserInformationQuery,
+};

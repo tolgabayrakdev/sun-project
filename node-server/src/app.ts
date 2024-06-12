@@ -5,8 +5,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 
-import authRouter from "./routes/auth-routes";
-
+import authRouter from './routes/auth-routes';
 
 const app = express();
 
@@ -19,7 +18,7 @@ app.get('/hello', (req: Request, res: Response) => {
     res.send('Hello baby.');
 });
 
-app.use("/api/v1/auth", authRouter);
+app.use('/api/v1/auth', authRouter);
 
 app.listen(1234, () => {
     console.log('Server is running...');
