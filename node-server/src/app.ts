@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use(cors({ origin: true, credentials: true }));
 
 app.get('/hello', (req: Request, res: Response) => {
-    res.send('Hello baby.');
+    res.send('Hello from server.');
 });
 
 app.use('/api/v1/auth', authRouter);
