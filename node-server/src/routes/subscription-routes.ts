@@ -1,10 +1,11 @@
 import express from 'express';
 import { SubscriptionController } from '../controllers/subscription-controller';
+import { verifyToken } from '../middlewares/verify-token';
 
 const router = express.Router();
 const subscriptionController = new SubscriptionController();
 
-router.post('/', subscriptionController.create);
-router.delete('/', subscriptionController.delete);
+router.post('/', verifyToken, subscriptionController.create);
+router.delete('/', verifyToken, subscriptionController.delete);
 
 export default router;
