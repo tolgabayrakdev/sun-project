@@ -2,6 +2,8 @@ import { Exception } from '../exceptions/exception';
 import { SubscriptionService } from '../services/subscription-service';
 import { Response, Request } from 'express';
 
+
+
 export class SubscriptionController {
     private subscriptionService: SubscriptionService;
 
@@ -11,8 +13,9 @@ export class SubscriptionController {
 
     public create = async (req: Request, res: Response) => {
         try {
-            const { payload } = req.body;
-            await this.subscriptionService.create(payload);
+            const userId = req.user.id;
+            const payload = req.body;
+            await this.subscriptionService.create(payload, userId);
             res.status(201).json({ message: 'Subscription created.' });
         } catch (error) {
             if (error instanceof Exception) {
@@ -23,5 +26,5 @@ export class SubscriptionController {
         }
     };
 
-    public delete = async (req: Request, res: Response) => {};
+    public delete = async (req: Request, res: Response) => { };
 }
