@@ -4,6 +4,12 @@ import React, { useEffect, useState } from "react"
 
 
 export default function Settings() {
+  const [subscriptionInformation, setSubscriptionInformation] = useState({
+    status: "",
+    plan_name: "",
+    start_date: "",
+    end_date: ""
+  });
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isMatch, setIsMatch] = useState(true);
@@ -41,6 +47,22 @@ export default function Settings() {
     }
   }
 
+  const getUserSubscription = async () => {
+    try {
+      const result = await fetch("http://localhost:1234/api/v1/subscription", {
+        method: "GET",
+        credentials: "include"
+      });
+      const data = await result.json();
+      setSubscriptionInformation(data.subscription);
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    getUserSubscription();
+  }, [])
 
   useEffect(() => {
     if (password && confirmPassword) {
@@ -54,6 +76,24 @@ export default function Settings() {
   return (
     <>
       <Grid p="md">
+        <Grid.Col span={{ base: 8, md: 8, lg: 8 }}>
+          <Card m="xs" style={{ minHeight: rem(180) }} shadow="sm" padding="lg" radius="md" withBorder>
+            <Group justify="space-between" mt="md" mb="xs">
+              <Text fw={500}>Üyelik Bilgileri</Text>
+            </Group>
+            <Divider />
+            {subscriptionInformation && subscriptionInformation.plan_name ? (
+              <div>
+                <p>Plan: {subscriptionInformation.plan_name}</p>
+                <p>Status: {subscriptionInformation.status}</p>
+                <p>Başlangıç Tarihi: {new Date(subscriptionInformation.start_date).toLocaleDateString()}</p>
+                <p>Bitiş Tarihi: {new Date(subscriptionInformation.end_date).toLocaleDateString()}</p>
+              </div>
+            ) : (
+              <Text mt="xs">Abonelik bilgisi bulunamadı.</Text>
+            )}
+          </Card>
+        </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
           <Card m="xs" style={{ minHeight: rem(180) }} shadow="sm" padding="lg" radius="md" withBorder>
             <Group justify="space-between" mt="md" mb="xs">
