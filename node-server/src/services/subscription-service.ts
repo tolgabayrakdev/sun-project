@@ -2,7 +2,8 @@ import client from '../database';
 import { BadRequestError } from '../exceptions/bad-request-exception';
 import { Exception } from '../exceptions/exception';
 import { InternalServerError } from '../exceptions/internal-server-exception';
-import { checkSubscriptionQuery, createSubscriptionQueryForMonth } from '../queries/subscription';
+import { NotFoundError } from '../exceptions/not-found-exception';
+import { checkSubscriptionQuery, createSubscriptionQueryForMonth, showSubscriptionQuery } from '../queries/subscription';
 
 type Subscription = {
     plan_id: number;
@@ -36,6 +37,23 @@ export class SubscriptionService {
         } catch (error) {
             if (error instanceof Exception) {
                 await client.query('ROLLBACK');
+                throw error;
+            } else {
+                throw new InternalServerError('Internal Server Error!');
+            }
+        }
+    }
+
+    public async show(user_id: number) {
+        try {
+            const subscription = await client.query(showSubscriptionQuery, [user_id]);
+            if (subscription) {
+                return subscription.rows[0];
+            } else {
+                throw new NotFoundError('Subscription not found!');
+            }
+        } catch (error) {
+            if (error instanceof Exception) {
                 throw error;
             } else {
                 throw new InternalServerError('Internal Server Error!');
