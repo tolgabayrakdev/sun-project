@@ -7,5 +7,6 @@ const subscriptionController = new SubscriptionController();
 
 router.post('/', verifyToken, subscriptionController.create);
 router.delete('/', verifyToken, subscriptionController.delete);
+router.get("/", verifyToken, subscriptionController.show);
 
 export default router;

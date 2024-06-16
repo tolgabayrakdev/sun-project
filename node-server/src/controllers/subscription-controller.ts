@@ -27,4 +27,18 @@ export class SubscriptionController {
     };
 
     public delete = async (req: Request, res: Response) => { };
+
+    public show = async (req: Request, res: Response) => {
+        const userId = req.user.id;
+        try {
+            const result = await this.subscriptionService.show(userId);
+            res.status(200).json({ subscription: result });
+        } catch (error) {
+            if (error instanceof Exception) {
+                res.status(error.statusCode).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: 'Internal server error!' });
+            }
+        }
+    }
 }
