@@ -53,6 +53,8 @@ export class SubscriptionService {
                 throw new NotFoundError('Subscription not found!');
             }
         } catch (error) {
+            console.log(error);
+            
             if (error instanceof Exception) {
                 throw error;
             } else {
