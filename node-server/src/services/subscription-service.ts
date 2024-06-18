@@ -3,7 +3,11 @@ import { BadRequestError } from '../exceptions/bad-request-exception';
 import { Exception } from '../exceptions/exception';
 import { InternalServerError } from '../exceptions/internal-server-exception';
 import { NotFoundError } from '../exceptions/not-found-exception';
-import { checkSubscriptionQuery, createSubscriptionQueryForMonth, showSubscriptionQuery } from '../queries/subscription';
+import {
+    checkSubscriptionQuery,
+    createSubscriptionQueryForMonth,
+    showSubscriptionQuery,
+} from '../queries/subscription';
 
 type Subscription = {
     plan_id: number;
@@ -18,7 +22,11 @@ export class SubscriptionService {
             if (isSubscriptionExist.rows.length > 0) {
                 throw new BadRequestError('User already has a subscription');
             }
-            const newSubscription = await client.query(createSubscriptionQueryForMonth, [user_id, payload.plan_id, payload.status]);
+            const newSubscription = await client.query(createSubscriptionQueryForMonth, [
+                user_id,
+                payload.plan_id,
+                payload.status,
+            ]);
             await client.query('COMMIT');
             return newSubscription;
         } catch (error) {
@@ -54,7 +62,7 @@ export class SubscriptionService {
             }
         } catch (error) {
             console.log(error);
-            
+
             if (error instanceof Exception) {
                 throw error;
             } else {

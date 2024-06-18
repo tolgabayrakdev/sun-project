@@ -15,4 +15,9 @@ const showSubscriptionQuery = ` SELECT
   WHERE
     s.user_id = $1`;
 
-export { createSubscriptionQueryForMonth, cancelSubscriptionQuery, checkSubscriptionQuery, showSubscriptionQuery };
+export {
+    createSubscriptionQueryForMonth,
+    cancelSubscriptionQuery,
+    checkSubscriptionQuery,
+    showSubscriptionQuery,
+};

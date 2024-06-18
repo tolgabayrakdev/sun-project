@@ -35,8 +35,8 @@ Kullanıcı hesap oluşturup ve bir üyelik aldığında, genellikle şu adımla
    Tüm bu işlemler sırasında kullanıcı hareketleri denetim günlüğüne kaydedilir.
    Bu adımda AuditLog modeli kullanılabilir.
 
-
 ## Modules
 
 1. Kişiler
 2. Firmalar(Satış fırsatı firma sub modülü)
+3. Raporlar
