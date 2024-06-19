@@ -6,6 +6,7 @@ import {
     IconMessageCircle,
     IconTrash,
     IconHome,
+    IconUsers,
 } from '@tabler/icons-react';
 import AuthWrapper from '../wrappers/AuthWrapper';
 import { notifications } from '@mantine/notifications';
@@ -137,6 +138,20 @@ function AppLayout() {
                         }}
                     >
                         Anasayfa
+                    </Button>
+                    <Button
+                        mt="xs"
+                        to="/app/persons"
+                        component={Link}
+                        leftSection={<IconUsers size={14} />}
+                        variant=""
+                        style={{
+                            backgroundColor: isActive('/app/persons') ? '' : 'black',
+                            color: isActive('/app') ? "white" : "",
+
+                        }}
+                    >
+                        Kişiler
                     </Button>
                     <Button
                         mt="xs"
