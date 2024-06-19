@@ -24,7 +24,10 @@ export class PersonController {
         }
     };
     public delete = async (req: Request, res: Response) => {
+        const userId = req.params.id;
         try {
+            await this.personService.delete(parseInt(userId));
+            res.status(200).json({ message: 'Person deleted.' });
         } catch (error) {
             if (error instanceof Exception) {
                 res.status(error.statusCode).json({ message: error.message });
@@ -34,7 +37,11 @@ export class PersonController {
         }
     };
     public update = async (req: Request, res: Response) => {
+        const id = req.params.id;
+        const payload = req.body;
         try {
+            const result = await this.personService.update(parseInt(id), payload);
+            res.status(200).json({ message: 'Person updated.' });
         } catch (error) {
             if (error instanceof Exception) {
                 res.status(error.statusCode).json({ message: error.message });

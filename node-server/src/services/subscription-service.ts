@@ -7,7 +7,7 @@ import {
     checkSubscriptionQuery,
     createSubscriptionQueryForMonth,
     showSubscriptionQuery,
-} from '../queries/subscription';
+} from '../queries/subscription-queries';
 
 type Subscription = {
     plan_id: number;
