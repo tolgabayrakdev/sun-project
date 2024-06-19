@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, TextInput, ScrollArea, Modal, Button, Group, Select, Pagination } from '@mantine/core';
+import { Table, TextInput, ScrollArea, Modal, Button, Group, Select, Pagination, Checkbox } from '@mantine/core';
 
 const initialData = [
   { id: 1, name: 'John Doe', age: 28, email: 'john@example.com' },
@@ -44,6 +44,7 @@ function DataTable() {
   const [modalOpened, setModalOpened] = useState(false);
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState(5);
+  const [selectedRows, setSelectedRows] = useState<any>([]);
 
   const filteredData = data.filter((item) => {
     const searchTerm = search.toLowerCase();
@@ -65,6 +66,8 @@ function DataTable() {
 
   const handleUpdate = () => {
     setData(data.map((item) => (item.id === selectedData.id ? selectedData : item)));
+    console.log('Updated data:', selectedData);
+
     setModalOpened(false);
   };
 
@@ -81,7 +84,43 @@ function DataTable() {
     setPage(1); // Sayfa boyutu değiştiğinde sayfayı 1'e sıfırla
   };
 
+
+
+  const handleExportCSV = () => {
+    const csvData = [
+      ["İsim", "Yaş", "Email"],
+      ...filteredData.map(item => [item.name, item.age, item.email])
+    ];
+
+    let csvContent = "data:text/csv;charset=utf-8,"
+      + csvData.map(e => e.join(",")).join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "data.csv");
+    document.body.appendChild(link); // Required for FF
+
+    link.click();
+    document.body.removeChild(link);
+  };
+
+
   const paginatedData = filteredData.slice((page - 1) * pageSize, page * pageSize);
+
+  const handleSelectRow = (id: any) => {
+    if (selectedRows.includes(id)) {
+      setSelectedRows(selectedRows.filter(rowId => rowId !== id));
+    } else {
+      setSelectedRows([...selectedRows, id]);
+    }
+  };
+
+  const handleDeleteSelected = () => {
+    setData(data.filter((item) => !selectedRows.includes(item.id)));
+    setSelectedRows([]);
+  };
+
 
   return (
     <div>
@@ -103,13 +142,17 @@ function DataTable() {
               <Table.Th>İşlemler</Table.Th>
             </Table.Tr>
           </Table.Thead>
-
           <Table.Tbody>
-
             {
               paginatedData.length > 0 ? (
                 paginatedData.map((item) => (
                   <Table.Tr key={item.id}>
+                    <Table.Td>
+                      <Checkbox
+                        checked={selectedRows.includes(item.id)}
+                        onChange={() => handleSelectRow(item.id)}
+                      />
+                    </Table.Td>
                     <Table.Td>{item.name}</Table.Td>
                     <Table.Td>{item.age}</Table.Td>
                     <Table.Td>{item.email}</Table.Td>
@@ -123,7 +166,7 @@ function DataTable() {
                 ))
               ) : (
                 <Table.Tr>
-                  <Table.Td style={{ textAlign: 'center'}}>
+                  <Table.Td style={{ textAlign: 'center' }}>
                     Sonuç Yok
                   </Table.Td>
                 </Table.Tr>
@@ -149,6 +192,14 @@ function DataTable() {
           total={Math.ceil(filteredData.length / pageSize)}
         />
       </Group>
+
+      <Group mt="md">
+        <Button onClick={handleExportCSV}>CSV Olarak İndir</Button>
+        <Button onClick={handleDeleteSelected} color="red" disabled={selectedRows.length === 0}>
+          Seçili Olanları Sil
+        </Button>
+      </Group>
+
 
       <Modal
         opened={modalOpened}
