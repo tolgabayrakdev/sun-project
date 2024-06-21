@@ -1,44 +1,35 @@
-import React, { useState } from 'react';
-import { Table, TextInput, ScrollArea, Modal, Button, Group, Select, Pagination, Checkbox } from '@mantine/core';
-
-const initialData = [
-  { id: 1, name: 'John Doe', age: 28, email: 'john@example.com' },
-  { id: 2, name: 'Jane Smith', age: 34, email: 'jane@example.com' },
-  { id: 3, name: 'Alice Johnson', age: 25, email: 'alice@example.com' },
-  // Daha fazla veri ekleyin
-  { id: 4, name: 'Bob Brown', age: 40, email: 'bob@example.com' },
-  { id: 5, name: 'Carol White', age: 23, email: 'carol@example.com' },
-  { id: 6, name: 'Daniel Black', age: 29, email: 'daniel@example.com' },
-  { id: 7, name: 'Eva Green', age: 32, email: 'eva@example.com' },
-  { id: 8, name: 'Frank Blue', age: 45, email: 'frank@example.com' },
-  { id: 9, name: 'Grace Red', age: 27, email: 'grace@example.com' },
-  { id: 10, name: 'Henry Orange', age: 31, email: 'henry@example.com' },
-  { id: 11, name: 'Ivy Yellow', age: 22, email: 'ivy@example.com' },
-  { id: 12, name: 'Jack Purple', age: 36, email: 'jack@example.com' },
-  { id: 13, name: 'Kelly Pink', age: 28, email: 'kelly@example.com' },
-  { id: 14, name: 'Leo Gray', age: 34, email: 'leo@example.com' },
-  { id: 15, name: 'Mia Silver', age: 25, email: 'mia@example.com' },
-  { id: 16, name: 'Grace Red', age: 27, email: 'grace@example.com' },
-  { id: 17, name: 'Tolga Orange', age: 31, email: 'tolgahenry@example.com' },
-  { id: 18, name: 'Ivy Yellow', age: 22, email: 'ivy@example.com' },
-  { id: 19, name: 'Jack Purple', age: 36, email: 'jack@example.com' },
-  { id: 20, name: 'Kelly Pink', age: 28, email: 'kelly@example.com' },
-  { id: 21, name: 'Leo Gray', age: 34, email: 'leo@example.com' },
-  { id: 22, name: 'Mia Silver', age: 25, email: 'mia@example.com' },
-  { id: 23, name: 'Grace Red', age: 27, email: 'grace@example.com' },
-  { id: 24, name: 'Henry Orange', age: 31, email: 'henry@example.com' },
-  { id: 25, name: 'Ivy Yellow', age: 22, email: 'ivy@example.com' },
-  { id: 26, name: 'Jack Purple', age: 36, email: 'jack@example.com' },
-  { id: 27, name: 'Kelly Pink', age: 28, email: 'kelly@example.com' },
-  { id: 28, name: 'Leo Gray', age: 34, email: 'leo@example.com' },
-  { id: 29, name: 'Mia Silver', age: 25, email: 'mia@example.com' },
-  { id: 30, name: 'Jack Purple', age: 36, email: 'jack@example.com' },
-  { id: 31, name: 'Kelly Pink', age: 28, email: 'kelly@example.com' },
-  { id: 32, name: 'Leo Gray', age: 34, email: 'leo@example.com' },
-];
+import { useEffect, useState } from 'react';
+import { Table, TextInput, ScrollArea, Modal, Button, Group, Select, Pagination, Checkbox, Popover, Text, Drawer, Flex } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { useDisclosure } from '@mantine/hooks';
+import { IconPlus } from '@tabler/icons-react';
+import { useForm } from '@mantine/form';
 
 function DataTable() {
-  const [data, setData] = useState(initialData);
+  const [opened, { open, close }] = useDisclosure(false);
+  const [loading, setLoading] = useState(false);
+  const [personList, setPersonList] = useState<any>([]);
+  const [deletePopoverId, setDeletePopoverId] = useState<string | null>(null);
+
+  const form = useForm({
+    mode: "uncontrolled",
+    initialValues: {
+      name: '',
+      surname: '',
+      email: '',
+      phone_number: '',
+      company_id: '',
+      description: ''
+    },
+    validate: {
+      name: (value) => value.length < 3 ? "En az üç karakter olmalıdır" : null,
+      surname: (value) => value.length < 3 ? "En az üç karakter olmalıdır" : null,
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Geçersiz email'),
+      phone_number: (value) => value.length < 11 ? "Telefon numarası en az 11 karakter olmalıdır" : null
+    }
+  });
+
+  //--------------------------------------------
   const [search, setSearch] = useState('');
   const [selectedData, setSelectedData] = useState<any>(null);
   const [modalOpened, setModalOpened] = useState(false);
@@ -46,12 +37,35 @@ function DataTable() {
   const [pageSize, setPageSize] = useState(5);
   const [selectedRows, setSelectedRows] = useState<any>([]);
 
-  const filteredData = data.filter((item) => {
+
+
+  const getPersonList = async () => {
+    try {
+      const res = await fetch("http://localhost:1234/api/v1/persons", {
+        method: "GET",
+        credentials: "include"
+      });
+      const data = await res.json();
+      setPersonList(data.persons);
+      console.log(data);
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  useEffect(() => {
+    getPersonList();
+  }, [])
+
+
+  const filteredData = personList?.filter((item: any) => {
     const searchTerm = search.toLowerCase();
+    const fullName = `${item.name.toLowerCase()} ${item.surname.toLowerCase()}`;
     return (
-      item.name.toLowerCase().includes(searchTerm) ||
-      item.email.toLowerCase().includes(searchTerm) ||
-      item.age.toString().includes(searchTerm)
+      fullName.includes(searchTerm) ||
+      item.email.toString().includes(searchTerm) ||
+      item.phone_number.toString().includes(searchTerm)
     );
   });
 
@@ -60,12 +74,66 @@ function DataTable() {
     setModalOpened(true);
   };
 
-  const handleDelete = (id: any) => {
-    setData(data.filter((item) => item.id !== id));
+  const handleDelete = async (id: any) => {
+    try {
+      const res = await fetch(`http://localhost:1234/api/v1/persons/${id}`, {
+        method: "DELETE",
+        credentials: "include"
+      });
+      if (res.ok) {
+        setPersonList(personList.filter((item: any) => item.id !== id));
+        notifications.show({
+          title: 'İşlem Başarılı',
+          message: 'Kişi başarıyla silindi',
+          autoClose: 1500,
+          color: "green"
+        });
+      }
+    } catch (error) {
+      throw error;
+    }
   };
 
+  const handlePersonCreateForm = async (values: any) => {
+    const processedValues = {
+      name: values.name,
+      surname: values.surname,
+      email: values.email,
+      phone_number: values.phone_number,
+      company_id: values.company_id === '' ? null : values.company_id,
+      description: values.description === '' ? null : values.description,
+    };
+
+    setLoading(true)
+    try {
+      const res = await fetch("http://localhost:1234/api/v1/persons", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(processedValues),
+      });
+      if (res.status === 201) {
+        setTimeout(() => {
+          setLoading(false);
+          notifications.show({
+            title: 'İşlem Başarılı',
+            message: 'Kişi başarıyla eklendi',
+            autoClose: 1500,
+            color: "green"
+          });
+          close();
+          getPersonList();
+        }, 1500)
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   const handleUpdate = () => {
-    setData(data.map((item) => (item.id === selectedData.id ? selectedData : item)));
+    setPersonList(personList.map((item: any) => (item.id === selectedData.id ? selectedData : item)));
     console.log('Updated data:', selectedData);
 
     setModalOpened(false);
@@ -83,8 +151,6 @@ function DataTable() {
     setPageSize(newPageSize);
     setPage(1); // Sayfa boyutu değiştiğinde sayfayı 1'e sıfırla
   };
-
-
 
   const handleExportCSV = () => {
     const csvData = [
@@ -106,7 +172,7 @@ function DataTable() {
   };
 
 
-  const paginatedData = filteredData.slice((page - 1) * pageSize, page * pageSize);
+  const paginatedData = filteredData?.slice((page - 1) * pageSize, page * pageSize);
 
   const handleSelectRow = (id: any) => {
     if (selectedRows.includes(id)) {
@@ -117,35 +183,55 @@ function DataTable() {
   };
 
   const handleDeleteSelected = () => {
-    setData(data.filter((item) => !selectedRows.includes(item.id)));
+    setPersonList(personList.filter((item: any) => !selectedRows.includes(item.id)));
     setSelectedRows([]);
   };
 
 
+  const openDeletePopover = (id: any) => {
+    setDeletePopoverId(id);
+  }
+
+  const closeDeletePopover = () => {
+    setDeletePopoverId(null);
+  }
+
+  const confirmDelete = () => {
+    if (deletePopoverId) {
+      handleDelete(deletePopoverId);
+      closeDeletePopover();
+    }
+  }
+
   return (
     <div>
-      <TextInput
-        w="230"
-        placeholder="Ara..."
-        value={search}
-        onChange={(event) => setSearch(event.currentTarget.value)}
-        mb="md"
-      />
+      <Flex justify="space-between">
+        <TextInput
+          w="230"
+          placeholder="Ara..."
+          value={search}
+          onChange={(event) => setSearch(event.currentTarget.value)}
+          mb="md"
+        />
+        <Button color="green" leftSection={<IconPlus />} onClick={open}>Yeni</Button>
+
+      </Flex>
 
       <ScrollArea style={{ height: pageSize > 20 ? '600px' : 'auto' }}>
         <Table striped highlightOnHover verticalSpacing="md">
           <Table.Thead>
             <Table.Tr>
+              <Table.Th></Table.Th>
               <Table.Th>İsim</Table.Th>
-              <Table.Th>Yaş</Table.Th>
               <Table.Th>Email</Table.Th>
+              <Table.Th>Telefon No</Table.Th>
               <Table.Th>İşlemler</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
             {
-              paginatedData.length > 0 ? (
-                paginatedData.map((item) => (
+              paginatedData?.length > 0 ? (
+                paginatedData.map((item: any) => (
                   <Table.Tr key={item.id}>
                     <Table.Td>
                       <Checkbox
@@ -153,13 +239,28 @@ function DataTable() {
                         onChange={() => handleSelectRow(item.id)}
                       />
                     </Table.Td>
-                    <Table.Td>{item.name}</Table.Td>
-                    <Table.Td>{item.age}</Table.Td>
+                    <Table.Td>{item.name} {item.surname}</Table.Td>
                     <Table.Td>{item.email}</Table.Td>
+                    <Table.Td>{item.phone_number}</Table.Td>
                     <Table.Td>
                       <Group>
                         <Button onClick={() => handleEdit(item)} size="xs">Güncelle</Button>
-                        <Button onClick={() => handleDelete(item.id)} size="xs" color="red">Sil</Button>
+                        <Popover
+                          opened={deletePopoverId === item.id}
+                          onClose={closeDeletePopover}
+                          width={200}
+                          position="bottom"
+                          withArrow
+                          shadow="md"
+                        >
+                          <Popover.Target>
+                            <Button onClick={() => openDeletePopover(item.id)} size="xs" color="red">Sil</Button>
+                          </Popover.Target>
+                          <Popover.Dropdown>
+                            <Text mb="xs" size="xs">Silme işlemini yapmak istiyor musunuz?</Text>
+                            <Button size="compact-md" onClick={confirmDelete}>Onayla</Button>
+                          </Popover.Dropdown>
+                        </Popover>
                       </Group>
                     </Table.Td>
                   </Table.Tr>
@@ -176,7 +277,7 @@ function DataTable() {
         </Table>
       </ScrollArea>
 
-      <Group position="apart" mt="md">
+      <Group mt="md">
         <Select
           value={pageSize.toString()}
           onChange={(value: any) => handlePageSizeChange(parseInt(value))}
@@ -189,7 +290,7 @@ function DataTable() {
         <Pagination
           value={page}
           onChange={handlePageChange}
-          total={Math.ceil(filteredData.length / pageSize)}
+          total={Math.ceil(filteredData?.length / pageSize)}
         />
       </Group>
 
@@ -215,9 +316,9 @@ function DataTable() {
               mb="sm"
             />
             <TextInput
-              label="Yaş"
-              value={selectedData.age}
-              onChange={(event) => handleChange('age', event.currentTarget.value)}
+              label="İsim"
+              value={selectedData.surname}
+              onChange={(event) => handleChange('surname', event.currentTarget.value)}
               mb="sm"
             />
             <TextInput
@@ -226,10 +327,67 @@ function DataTable() {
               onChange={(event) => handleChange('email', event.currentTarget.value)}
               mb="sm"
             />
+            <TextInput
+              label="Email"
+              value={selectedData.phone_number}
+              onChange={(event) => handleChange('phone_number', event.currentTarget.value)}
+              mb="sm"
+            />
             <Button onClick={handleUpdate}>Güncelle</Button>
           </div>
         )}
       </Modal>
+
+      <Drawer position="right" opened={opened} onClose={close} title="Yeni kişi ekle">
+        <form onSubmit={form.onSubmit((values) => handlePersonCreateForm(values))}>
+          <TextInput
+            mb="xs"
+            label="Ad"
+            placeholder="Ad"
+            key={form.key("name")}
+            {...form.getInputProps("name")}
+          />
+          <TextInput
+            mb="xs"
+            label="Soyad"
+            placeholder="Soyad"
+            key={form.key("surname")}
+            {...form.getInputProps("surname")}
+          />
+          <TextInput
+            mb="xs"
+            label="Email"
+            placeholder="Email"
+            key={form.key("email")}
+            {...form.getInputProps("email")}
+          />
+          <TextInput
+            mb="xs"
+            label="Telefon No"
+            placeholder="Telefon No"
+            key={form.key("phone_number")}
+            {...form.getInputProps("phone_number")}
+          />
+          <TextInput
+            mb="xs"
+            label="Firma"
+            placeholder="Firma"
+            key={form.key("company_id")}
+            {...form.getInputProps("company_id")}
+          />
+          <TextInput
+            mb="xs"
+            label="Açıklama"
+            placeholder="Açıklama"
+            key={form.key("description")}
+            {...form.getInputProps("description")}
+          />
+          <Button loading={loading} type="submit" fullWidth mt="md">
+            Kaydet
+          </Button>
+        </form>
+      </Drawer>
+
     </div>
   );
 }
