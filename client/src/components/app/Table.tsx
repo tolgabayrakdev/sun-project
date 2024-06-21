@@ -347,7 +347,7 @@ function DataTable() {
               mb="sm"
             />
             <TextInput
-              label="Email"
+              label="Telefon No"
               value={selectedData.phone_number}
               onChange={(event) => handleChange('phone_number', event.currentTarget.value)}
               mb="sm"
