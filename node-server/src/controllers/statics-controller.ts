@@ -9,11 +9,11 @@ export class StaticsController {
         this.staticsService = new StaticsService();
     }
 
-    public getPersonsCount = async (req: Request, res: Response) => {
+    public getStatics = async (req: Request, res: Response) => {
         const userId = req.user.id;
         try {
-            const result = await this.staticsService.getPersonsCount(userId);
-            res.status(200).json({ personCount: result });
+            const result = await this.staticsService.getStats(userId);
+            res.status(200).json(result);
         } catch (error) {
             if (error instanceof Exception) {
                 res.status(error.statusCode).json({ message: error.message });
@@ -22,4 +22,6 @@ export class StaticsController {
             }
         }
     }
+
+
 }
