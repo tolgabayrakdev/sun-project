@@ -7,6 +7,7 @@ import 'dotenv/config';
 
 import authRouter from './routes/auth-routes';
 import subscriptionRouter from './routes/subscription-routes';
+import personRouter from './routes/person-routes';
 const app = express();
 
 app.use(express.json());
@@ -16,6 +17,7 @@ app.use(cors({ origin: true, credentials: true }));
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/subscription', subscriptionRouter);
+app.use('/api/v1/persons', personRouter);
 
 app.listen(1234, () => {
     console.log('Server is running...');

@@ -2,8 +2,6 @@ import { Exception } from '../exceptions/exception';
 import { SubscriptionService } from '../services/subscription-service';
 import { Response, Request } from 'express';
 
-
-
 export class SubscriptionController {
     private subscriptionService: SubscriptionService;
 
@@ -26,7 +24,7 @@ export class SubscriptionController {
         }
     };
 
-    public delete = async (req: Request, res: Response) => { };
+    public delete = async (req: Request, res: Response) => {};
 
     public show = async (req: Request, res: Response) => {
         const userId = req.user.id;
@@ -40,5 +38,5 @@ export class SubscriptionController {
                 res.status(500).json({ message: 'Internal server error!' });
             }
         }
-    }
+    };
 }
