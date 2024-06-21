@@ -17,7 +17,7 @@ export class StaticsService {
             const companyResult = await client.query(query2, params);
             
             
-            return ({ companyResult: personResult.rows[0], personResult: companyResult.rows[0] });
+            return ({ companyResult: companyResult.rows[0], personResult: personResult.rows[0] });
         } catch (error) {
             if (error instanceof Exception) {
                 throw error;
