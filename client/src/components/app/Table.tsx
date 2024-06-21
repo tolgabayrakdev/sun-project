@@ -132,11 +132,30 @@ function DataTable() {
     }
   }
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     setPersonList(personList.map((item: any) => (item.id === selectedData.id ? selectedData : item)));
     console.log('Updated data:', selectedData);
-
-    setModalOpened(false);
+    try {
+      const res = await fetch(`http://localhost:1234/api/v1/persons/${selectedData.id}`, {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(selectedData)
+      });
+      if (res.ok) {
+        setModalOpened(false);
+        notifications.show({
+          title: 'İşlem Başarılı',
+          message: 'Kişi başarıyla güncellendi',
+          autoClose: 1500,
+          color: "green"
+        });
+      }
+    } catch (error) {
+      throw error;
+    }
   };
 
   const handleChange = (field: any, value: any) => {
@@ -154,8 +173,8 @@ function DataTable() {
 
   const handleExportCSV = () => {
     const csvData = [
-      ["İsim", "Yaş", "Email"],
-      ...filteredData.map(item => [item.name, item.age, item.email])
+      ["Ad", "Soyad", "Email", "Telefon No", "Şirket", "Açıklama"],
+      ...filteredData.map((item: { name: string; surname: string; email: string; phone_number: string; company: any; description: string; }) => [item.name, item.surname, item.email, item.phone_number, item.company, item.description])
     ];
 
     let csvContent = "data:text/csv;charset=utf-8,"
@@ -176,7 +195,7 @@ function DataTable() {
 
   const handleSelectRow = (id: any) => {
     if (selectedRows.includes(id)) {
-      setSelectedRows(selectedRows.filter(rowId => rowId !== id));
+      setSelectedRows(selectedRows.filter((rowId: any) => rowId !== id));
     } else {
       setSelectedRows([...selectedRows, id]);
     }
