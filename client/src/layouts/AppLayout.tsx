@@ -8,6 +8,7 @@ import {
     IconHome,
     IconUsers,
     IconMoon2,
+    IconReport,
 } from '@tabler/icons-react';
 import AuthWrapper from '../wrappers/AuthWrapper';
 import { notifications } from '@mantine/notifications';
@@ -143,6 +144,21 @@ function AppLayout() {
                         }}
                     >
                         Anasayfa
+                    </Button>
+                   
+                    <Button
+                        mt="xs"
+                        to="/app/reports"
+                        component={Link}
+                        leftSection={<IconReport size={14} />}
+                        variant=""
+                        style={{
+                            backgroundColor: isActive('/app/reports') ? '' : 'black',
+                            color: isActive('/app') ? "white" : "",
+
+                        }}
+                    >
+                        Raporlar
                     </Button>
                     <Button
                         mt="xs"
