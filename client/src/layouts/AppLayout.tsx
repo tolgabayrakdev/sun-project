@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Anchor, AppShell, Breadcrumbs, Burger, Button, Divider, Group, Menu, Title, rem } from '@mantine/core';
+import { Anchor, AppShell, Breadcrumbs, Burger, Button, Divider, Group, Menu, Title, rem, useComputedColorScheme, useMantineColorScheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
     IconSettings,
@@ -7,11 +7,11 @@ import {
     IconTrash,
     IconHome,
     IconUsers,
+    IconMoon2,
 } from '@tabler/icons-react';
 import AuthWrapper from '../wrappers/AuthWrapper';
 import { notifications } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
-
 
 function AppLayout() {
     const [user, setUser] = useState({
@@ -25,6 +25,8 @@ function AppLayout() {
     const isActive = (path: string) => location.pathname === path;
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
     const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
+    const { setColorScheme } = useMantineColorScheme();
+    const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
     const breadcrumbMap: { [key: string]: string } = {
         '/app': 'Anasayfa',
@@ -40,7 +42,6 @@ function AppLayout() {
             </Anchor>
         );
     });
-
 
     const handleLogoutRequest = async () => {
         try {
@@ -108,6 +109,10 @@ function AppLayout() {
                                 </Menu.Item>
                                 <Menu.Item leftSection={<IconMessageCircle style={{ width: rem(14), height: rem(14) }} />}>
                                     Mesajlar
+                                </Menu.Item>
+                                <Menu.Item onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
+                                    leftSection={<IconMoon2 style={{ width: rem(14), height: rem(14) }} />}>
+                                    Mod Değiştir
                                 </Menu.Item>
                                 <Menu.Divider />
                                 <Menu.Item
