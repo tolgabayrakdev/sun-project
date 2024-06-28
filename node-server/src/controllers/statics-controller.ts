@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { Exception } from "../exceptions/exception";
-import { StaticsService } from "../services/statics-service";
+import { Exception } from '../exceptions/exception';
+import { StaticsService } from '../services/statics-service';
 
 export class StaticsController {
     private staticsService: StaticsService;
@@ -21,7 +21,5 @@ export class StaticsController {
                 res.status(500).json({ message: 'Internal server error!' });
             }
         }
-    }
-
-
+    };
 }

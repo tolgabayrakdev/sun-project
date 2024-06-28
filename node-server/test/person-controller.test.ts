@@ -3,7 +3,6 @@ import { PersonService } from '../src/services/person-service';
 import { PersonController } from '../src/controllers/person-controller';
 import { Request, Response } from 'express';
 
-
 vi.mock('../src/services/person-service');
 
 describe('PersonController', () => {
@@ -44,9 +43,4 @@ describe('PersonController', () => {
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.json).toHaveBeenCalledWith({ message: 'Person created.' });
     });
-
-
-  
 });
-
-

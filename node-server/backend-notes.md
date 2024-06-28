@@ -42,6 +42,7 @@ Kullanıcı hesap oluşturup ve bir üyelik aldığında, genellikle şu adımla
 3. Raporlar
 
 ### Sales;
-- account + contact management
-- activity management
-- opportunity management
+
+-   account + contact management
+-   activity management
+-   opportunity management
