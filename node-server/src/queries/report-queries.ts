@@ -12,3 +12,12 @@ WHERE id = $4
 `;
 const showReportQuery = `SELECT * FROM reports WHERE id = $1`;
 const listReportQuery = `SELECT * FROM reports WHERE user_id = $1 `;
+
+
+export {
+    createReportQuery,
+    deleteReportQuery,
+    updateReportQuery,
+    showReportQuery,
+    listReportQuery
+}

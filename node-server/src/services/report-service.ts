@@ -2,6 +2,8 @@ import client from '../database';
 import { Exception } from '../exceptions/exception';
 import { InternalServerError } from '../exceptions/internal-server-exception';
 import { NotFoundError } from '../exceptions/not-found-exception';
+import { createReportQuery, deleteReportQuery, listReportQuery, showReportQuery, updateReportQuery } from '../queries/report-queries';
+
 
 type createPayload = {
     report_id: number;
