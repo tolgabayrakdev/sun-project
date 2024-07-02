@@ -76,7 +76,7 @@ export default function Settings() {
   return (
     <>
       <Grid p="md">
-        <Grid.Col span={{ base: 8, md: 8, lg: 8 }}>
+        <Grid.Col span={{ base: 12, md: 12, lg: 12 }}>
           <Card m="xs" style={{ minHeight: rem(180) }} shadow="sm" padding="lg" radius="md" withBorder>
             <Group justify="space-between" mt="md" mb="xs">
               <Text fw={500}>Üyelik Bilgileri</Text>

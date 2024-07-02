@@ -324,7 +324,7 @@ function DataTable() {
       <Modal
         opened={modalOpened}
         onClose={() => setModalOpened(false)}
-        title="Veriyi Güncelle"
+        title="Kişiyi Güncelle"
       >
         {selectedData && (
           <div>
