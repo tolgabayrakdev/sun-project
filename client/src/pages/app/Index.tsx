@@ -1,7 +1,7 @@
 import { Badge, Card, Grid, Group, Text, rem } from "@mantine/core";
-import AreasChart from "../../components/app/AreaChart";
-import BarChartComponent from "../../components/app/BarChart";
 import { useEffect, useState } from "react";
+import AreaChart from "../../components/app/AreaChart";
+import PieChart from "../../components/app/PieChart";
 
 export default function Index() {
     const [companyStatics, setCompanyStatic] = useState<any>({});
@@ -80,17 +80,17 @@ export default function Index() {
                 <Grid.Col span={{ base: 12, md: 6, lg: 7 }}>
                     <Card m="xs" style={{ minHeight: rem(180) }} shadow="sm" padding="lg" radius="md" withBorder>
                         <Group justify="space-between" mt="md" mb="xs">
-                            <Text fw={500}>Hoşgeldin, Tolga</Text>
+                            <Text fw={500}>Yıllık Plan</Text>
                         </Group>
-                        <BarChartComponent />
+                        <AreaChart />
                     </Card>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 6, lg: 5 }}>
                     <Card m="xs" style={{ minHeight: rem(180) }} shadow="sm" padding="lg" radius="md" withBorder>
                         <Group justify="space-between" mt="md" mb="xs">
-                            <Text fw={500}>Hoşgeldin, Tolga</Text>
+                            <Text fw={500}>Toplam Dağılım</Text>
                         </Group>
-                        <AreasChart />
+                        <PieChart />
                     </Card>
                 </Grid.Col>
             </Grid>
