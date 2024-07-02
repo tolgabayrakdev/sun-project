@@ -28,6 +28,7 @@ function AppLayout() {
 
     const breadcrumbMap: { [key: string]: string } = {
         '/app': 'Anasayfa',
+        '/app/persons': 'Kişiler',
         '/app/settings': 'Ayarlar',
     };
 
