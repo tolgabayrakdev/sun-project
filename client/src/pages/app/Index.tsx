@@ -1,6 +1,6 @@
 import { Badge, Card, Grid, Group, Text, rem } from "@mantine/core";
-import AreasChart from "../../components/app/AreaChart";
-import BarChartComponent from "../../components/app/BarChart";
+import AreaChart from "../../components/app/AreaChart";
+
 
 export default function Index() {
     return (
@@ -62,7 +62,7 @@ export default function Index() {
                         <Group justify="space-between" mt="md" mb="xs">
                             <Text fw={500}>Hoşgeldin, Tolga</Text>
                         </Group>
-                        <BarChartComponent />
+                        <AreaChart />
                     </Card>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 6, lg: 5 }}>
@@ -70,7 +70,6 @@ export default function Index() {
                         <Group justify="space-between" mt="md" mb="xs">
                             <Text fw={500}>Hoşgeldin, Tolga</Text>
                         </Group>
-                        <AreasChart />
                     </Card>
                 </Grid.Col>
             </Grid>

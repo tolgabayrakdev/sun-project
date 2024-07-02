@@ -1,54 +1,24 @@
-import { AreaChart } from '@mantine/charts';
+import { AgCharts } from 'ag-charts-react';
+import { useState } from 'react';
 
 
-export const data = [
-  {
-    date: 'Mar 22',
-    Apples: 2890,
-    Oranges: 2338,
-    Tomatoes: 2452,
-  },
-  {
-    date: 'Mar 23',
-    Apples: 2756,
-    Oranges: 2103,
-    Tomatoes: 2402,
-  },
-  {
-    date: 'Mar 24',
-    Apples: 3322,
-    Oranges: 986,
-    Tomatoes: 1821,
-  },
-  {
-    date: 'Mar 25',
-    Apples: 3470,
-    Oranges: 2108,
-    Tomatoes: 2809,
-  },
-  {
-    date: 'Mar 26',
-    Apples: 3129,
-    Oranges: 1726,
-    Tomatoes: 2290,
-  },
-];
+export default function AreaChart() {
+    const [chartOptions, setChartOptions] = useState<any>({
+        // Data: Data to be displayed in the chart
+        data: [
+            { month: 'Jan', avgTemp: 2.3, iceCreamSales: 162000 },
+            { month: 'Mar', avgTemp: 6.3, iceCreamSales: 302000 },
+            { month: 'May', avgTemp: 16.2, iceCreamSales: 800000 },
+            { month: 'Jul', avgTemp: 22.8, iceCreamSales: 1254000 },
+            { month: 'Sep', avgTemp: 14.5, iceCreamSales: 950000 },
+            { month: 'Nov', avgTemp: 8.9, iceCreamSales: 200000 },
+        ],
+        // Series: Defines which chart type and data to use
+        series: [{ type: 'bar', xKey: 'month', yKey: 'iceCreamSales' }],
+    });
 
-
-export default function AreasChart() {
-  return (
-    <>
-      <AreaChart
-        h={300}
-        data={data}
-        dataKey="date"
-        series={[
-          { name: 'Apples', color: 'indigo.6' },
-          { name: 'Oranges', color: 'blue.6' },
-          { name: 'Tomatoes', color: 'teal.6' },
-        ]}
-        curveType="linear"
-      />
-    </>
-  )
+    return (
+        // AgCharts component with options passed as prop
+        <AgCharts options={chartOptions} />
+    );
 }
