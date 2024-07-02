@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import '@mantine/charts/styles.css';
+import '@mantine/dates/styles.css';
 import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import routes from './routes';

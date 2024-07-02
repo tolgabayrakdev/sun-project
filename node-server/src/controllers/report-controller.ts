@@ -1,20 +1,20 @@
 import { Request, Response } from 'express';
-import { PersonService } from '../services/person-service';
 import { Exception } from '../exceptions/exception';
+import { ReportService } from '../services/report-service';
 
-export class PersonController {
-    private personService: PersonService;
+export class ReportController {
+    private reportService: ReportService;
 
     constructor() {
-        this.personService = new PersonService();
+        this.reportService = new ReportService();
     }
 
     public create = async (req: Request, res: Response) => {
         try {
             const userId = req.user.id;
             const payload = req.body;
-            await this.personService.create(payload, userId);
-            res.status(201).json({ message: 'Person created.' });
+            await this.reportService.create(payload, userId);
+            res.status(201).json({ message: 'Report created.' });
         } catch (error) {
             if (error instanceof Exception) {
                 res.status(error.statusCode).json({ message: error.message });
@@ -23,11 +23,12 @@ export class PersonController {
             }
         }
     };
+
     public delete = async (req: Request, res: Response) => {
         const userId = req.params.id;
         try {
-            await this.personService.delete(parseInt(userId));
-            res.status(200).json({ message: 'Person deleted.' });
+            await this.reportService.delete(parseInt(userId));
+            res.status(200).json({ message: 'Report deleted.' });
         } catch (error) {
             if (error instanceof Exception) {
                 res.status(error.statusCode).json({ message: error.message });
@@ -36,12 +37,13 @@ export class PersonController {
             }
         }
     };
+
     public update = async (req: Request, res: Response) => {
         const id = req.params.id;
         const payload = req.body;
         try {
-            await this.personService.update(parseInt(id), payload);
-            res.status(200).json({ message: 'Person updated.' });
+            await this.reportService.update(parseInt(id), payload);
+            res.status(200).json({ message: 'Report updated.' });
         } catch (error) {
             if (error instanceof Exception) {
                 res.status(error.statusCode).json({ message: error.message });
@@ -50,9 +52,10 @@ export class PersonController {
             }
         }
     };
+
     public show = async (req: Request, res: Response) => {
         try {
-            const person = await this.personService.show(parseInt(req.params.id));
+            const person = await this.reportService.show(parseInt(req.params.id));
             res.status(200).json({ person: person });
         } catch (error) {
             if (error instanceof Exception) {
@@ -62,11 +65,12 @@ export class PersonController {
             }
         }
     };
+
     public list = async (req: Request, res: Response) => {
         const userId = req.user.id;
         try {
-            const personList = await this.personService.list(userId);
-            res.status(200).json({ persons: personList });
+            const reportList = await this.reportService.list(userId);
+            res.status(200).json({ reports: reportList });
         } catch (error) {
             if (error instanceof Exception) {
                 res.status(error.statusCode).json({ message: error.message });

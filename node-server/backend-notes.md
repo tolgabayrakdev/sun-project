@@ -40,3 +40,9 @@ Kullanıcı hesap oluşturup ve bir üyelik aldığında, genellikle şu adımla
 1. Kişiler
 2. Firmalar(Satış fırsatı firma sub modülü)
 3. Raporlar
+
+### Sales;
+
+-   account + contact management
+-   activity management
+-   opportunity management
